@@ -1,0 +1,130 @@
+.terminal {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.line {
+  margin: 0;
+}
+
+.prompt {
+  color: var(--accent);
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.input {
+  flex: 1 1 0;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font: inherit;
+  padding: 8px 0;
+  caret-color: var(--accent);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.text {
+  margin: 0;
+  font: inherit;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+.error {
+  margin: 0;
+  color: var(--accent);
+}
+
+.dim {
+  color: var(--text-dim);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+
+.card p {
+  margin: 0;
+}
+
+.cardName {
+  font-weight: 700;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.chip {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 14px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

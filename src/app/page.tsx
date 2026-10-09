@@ -1,69 +1,62 @@
-import Image from "next/image";
 import styles from "./page.module.css";
+import { projects } from "@/content/projects";
+import Link from "next/link";
+import { statusLabel } from "@/lib/labels";
+import Terminal from "@/components/Terminal";
 
 export default function Home() {
+  const featured = projects.filter((p) => p.featured);
+  const rest = projects.filter((p) => !p.featured);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className={styles.screen}>
+      <p className={styles.line}>
+        <span className={styles.prompt}>jcamilo@dev:~/cali$</span>whoami
+      </p>
+      <h1 className={styles.title}>JCamilo Castellanos.</h1>
+      <p className={styles.dim}>
+        Full Stack Developer · Ingeniero Industrial · Cali, Colombia
+      </p>
+
+      <p className={styles.line}>
+        <span className={styles.prompt}>jcamilo@dev:~/cali$</span>ls proyectos/
+      </p>
+
+      <ul className={styles.featured}>
+        {featured.map((p) => (
+          <li key={p.slug} className={styles.item}>
+            <div className={styles.itemHead}>
+              <span className={styles.star} aria-hidden="true">
+                ★
+              </span>
+              <Link className={styles.name} href={`/proyectos/${p.slug}`}>
+                {p.slug}/
+              </Link>
+              {p.tag && <span className={styles.tag}>[{p.tag}]</span>}
+            </div>
+            <p className={styles.tagline}>{p.tagline}</p>
+            <p className={styles.meta}>
+              <span className={p.status === "deployed" ? styles.statusOn : ""}>
+                {statusLabel[p.status]}
+              </span>
+              {p.team && ` · equipo: ${p.team}`}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      {rest.length > 0 && (
+        <ul className={styles.compact}>
+          {rest.map((p) => (
+            <li key={p.slug} className={styles.row}>
+              <span className={styles.rowName}>{p.slug}/</span>
+              <span className={styles.rowTagline}>{p.tagline}</span>
+              <span className={styles.rowStatus}>{statusLabel[p.status]}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <Terminal />
+    </main>
   );
 }
