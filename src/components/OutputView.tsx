@@ -4,6 +4,7 @@ import type { Output } from "@/lib/types";
 import FlowView from "./FlowView";
 import styles from "./Terminal.module.css";
 import Link from "next/link";
+import AsciiFace from "./AsciiFace";
 
 const findProject = (slug: string) => projects.find((p) => p.slug === slug);
 
@@ -64,5 +65,8 @@ export default function OutputView({ output }: { output: Output }) {
       if (!p?.flow) return null;
       return <FlowView flow={p.flow} />;
     }
+
+    case "ascii":
+      return <AsciiFace />;
   }
 }

@@ -140,6 +140,39 @@ export const commands: Command[] = [
       ],
     }),
   },
+
+  {
+    name: "mcc",
+    aliases: ["musica"],
+    summary: "música con criterio: blog y podcast",
+    run: () => ({
+      kind: "text",
+      lines: [
+        "Música con Criterio: blog editorial; y 'Música, luego existo', podcast musical.",
+        "Selección con contexto y alma, no playlists al azar.",
+      ],
+    }),
+  },
+  {
+    name: "djc",
+    aliases: ["donjuancelektor"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "DonJuanCelektor: el selector  musical detrás de Música con Criterio.",
+        "Solo aparece en eventos en vivo.",
+      ],
+    }),
+  },
+  {
+    name: "face",
+    aliases: ["foto"],
+    summary: "",
+    hidden: true,
+    run: () => ({ kind: "ascii" }),
+  },
   {
     name: "clear",
     summary: "limpia la pantalla",

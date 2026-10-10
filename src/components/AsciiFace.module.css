@@ -1,0 +1,35 @@
+.frame {
+  margin: 12px 0;
+  padding: 8px;
+  max-width: 640px;
+  background: #e9e3d4;
+  border-radius: 6px;
+  container-type: inline-size;
+}
+
+.art {
+  margin: 0;
+  color: #14120e;
+  font-family: inherit;
+  /* 258 columnas de ancho; 0.6 = ancho de un carácter monoespaciado */
+  font-size: calc(100cqw / 258 / 0.6);
+  line-height: 1;
+  white-space: pre;
+  overflow: hidden;
+  animation: reveal 3.5s steps(70, end) both;
+}
+
+@keyframes reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art {
+    animation: none;
+  }
+}

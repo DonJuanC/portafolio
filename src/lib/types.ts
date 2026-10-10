@@ -42,7 +42,8 @@ export type Output =
   | { kind: "projects" }
   | { kind: "project"; slug: string }
   | { kind: "flow"; slug: string }
-  | { kind: "error"; message: string };
+  | { kind: "error"; message: string }
+  | { kind: "ascii" };
 
 export interface Command {
   name: string;
