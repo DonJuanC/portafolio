@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <rect width="1200" height="680" fill="#14120e"/>
+
+  <!-- Top bar -->
+  <rect x="40" y="30" width="1120" height="60" rx="8" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="70" y="67" fill="#e5a93d" font-family="monospace" font-size="20" font-weight="bold">Watchlist con Criterio</text>
+  <text x="320" y="67" fill="#9b9583" font-family="monospace" font-size="13">grafo semántico de películas · Gemini Embeddings 768d + pgvector HNSW</text>
+
+  <!-- Canvas Simulation with Graph Nodes -->
+  <rect x="40" y="110" width="1120" height="520" rx="10" fill="#12100c" stroke="#2c2921" stroke-width="1.5"/>
+
+  <!-- Edge connections -->
+  <line x1="320" y1="280" x2="580" y2="240" stroke="#4a4231" stroke-width="2" stroke-dasharray="4 2"/>
+  <line x1="580" y1="240" x2="860" y2="340" stroke="#e5a93d" stroke-width="2"/>
+  <line x1="580" y1="240" x2="520" y2="440" stroke="#e5a93d" stroke-width="2"/>
+  <line x1="520" y1="440" x2="780" y2="480" stroke="#4a4231" stroke-width="2" stroke-dasharray="4 2"/>
+  <line x1="320" y1="280" x2="240" y2="450" stroke="#4a4231" stroke-width="1.5"/>
+
+  <!-- Node 1: Nolan -->
+  <circle cx="580" cy="240" r="42" fill="#24211a" stroke="#e5a93d" stroke-width="2"/>
+  <text x="548" y="245" fill="#e9e4d4" font-family="monospace" font-size="13" font-weight="bold">Oppenheimer</text>
+  <text x="555" y="260" fill="#9b9583" font-family="monospace" font-size="10">C. Nolan</text>
+
+  <!-- Node 2: Denis Villeneuve (Semantic link) -->
+  <circle cx="860" cy="340" r="38" fill="#24211a" stroke="#e5a93d" stroke-width="2"/>
+  <text x="835" y="344" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">Blade Runner 2049</text>
+  <text x="840" y="358" fill="#e5a93d" font-family="monospace" font-size="9">similitud 0.81 (tono)</text>
+
+  <!-- Node 3: Interstellar -->
+  <circle cx="520" cy="440" r="36" fill="#24211a" stroke="#e5a93d" stroke-width="2"/>
+  <text x="480" y="445" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">Interstellar</text>
+  <text x="485" y="458" fill="#9b9583" font-family="monospace" font-size="9">mismo director</text>
+
+  <!-- Node 4: 2001 Space Odyssey -->
+  <circle cx="780" cy="480" r="32" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="750" y="484" fill="#9b9583" font-family="monospace" font-size="11">2001: Odisea</text>
+
+  <!-- Node 5: Memento -->
+  <circle cx="320" cy="280" r="30" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="295" y="284" fill="#9b9583" font-family="monospace" font-size="11">Memento</text>
+
+  <!-- Floating Query HUD -->
+  <rect x="70" y="140" width="380" height="90" rx="8" fill="#1b1914" stroke="#e5a93d" stroke-width="1"/>
+  <text x="90" y="170" fill="#e5a93d" font-family="monospace" font-size="12">BÚSQUEDA EN LENGUAJE NATURAL:</text>
+  <text x="90" y="195" fill="#e9e4d4" font-family="monospace" font-size="14">«Dilemas morales en ciencia y soledad»</text>
+  <text x="90" y="215" fill="#9b9583" font-family="monospace" font-size="11">→ 2 vecinos semánticos calculados en Postgres</text>
+</svg>

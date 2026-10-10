@@ -19,6 +19,12 @@ export interface FlowGraph {
   highlight?: { stepId: string; note: string };
 }
 
+export interface ProjectImage {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -32,6 +38,7 @@ export interface Project {
   stack: string[];
   links: { label: string; url: string }[];
   flow?: FlowGraph;
+  image?: ProjectImage;
 }
 
 export type ThemeMode = "dark" | "light" | "toggle";
@@ -42,6 +49,10 @@ export type Output =
   | { kind: "projects" }
   | { kind: "project"; slug: string }
   | { kind: "flow"; slug: string }
+  | { kind: "preview"; slug: string }
+  | { kind: "navigate"; path: string; message: string }
+  | { kind: "open"; url: string; label: string }
+  | { kind: "contact" }
   | { kind: "error"; message: string }
   | { kind: "ascii" };
 

@@ -5,6 +5,8 @@ import FlowView from "./FlowView";
 import styles from "./Terminal.module.css";
 import Link from "next/link";
 import AsciiFace from "./AsciiFace";
+import ContactOutput from "./ContactOutput";
+import ProjectPreview from "./ProjectPreview";
 
 const findProject = (slug: string) => projects.find((p) => p.slug === slug);
 
@@ -65,6 +67,28 @@ export default function OutputView({ output }: { output: Output }) {
       if (!p?.flow) return null;
       return <FlowView flow={p.flow} />;
     }
+
+    case "preview": {
+      const p = findProject(output.slug);
+      if (!p) return null;
+      return <ProjectPreview project={p} />;
+    }
+
+    case "navigate":
+      return <p className={styles.dim}>→ {output.message}</p>;
+
+    case "open":
+      return (
+        <p className={styles.dim}>
+          ↗ Abriendo {output.label}:{" "}
+          <a href={output.url} target="_blank" rel="noopener noreferrer">
+            {output.url}
+          </a>
+        </p>
+      );
+
+    case "contact":
+      return <ContactOutput />;
 
     case "ascii":
       return <AsciiFace />;

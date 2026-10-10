@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import { projects } from "@/content/projects";
 import { statusLabel } from "@/lib/labels";
 import FlowView from "@/components/FlowView";
+import ProjectPreview from "@/components/ProjectPreview";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -35,6 +36,13 @@ export default async function ProjectPage({
 
   return (
     <main className={styles.screen}>
+      <Link className={styles.back} href="/#proyectos">
+        <span aria-hidden="true">←</span> Volver a proyectos
+        <span className={styles.cmd} aria-hidden="true">
+          cd ..
+        </span>
+      </Link>
+
       <p className={styles.line}>
         <span className={styles.prompt}>jcamilo@dev:~/cali$</span>cat{" "}
         {project.slug}
@@ -85,17 +93,27 @@ export default async function ProjectPage({
         </ul>
       </div>
 
-      <Link className={styles.back} href="/">
-        {project.flow && (
-          <>
-            <p className={styles.line}>
-              <span className={styles.prompt}>jcamilo@dev:~/cali$</span>flow{" "}
-              {project.slug}
-            </p>
-            <FlowView flow={project.flow} />
-          </>
-        )}
-        ← cd ..
+      <p className={styles.line}>
+        <span className={styles.prompt}>jcamilo@dev:~/cali$</span>preview{" "}
+        {project.slug}
+      </p>
+      <ProjectPreview project={project} />
+
+      {project.flow && (
+        <>
+          <p className={styles.line}>
+            <span className={styles.prompt}>jcamilo@dev:~/cali$</span>flow{" "}
+            {project.slug}
+          </p>
+          <FlowView flow={project.flow} />
+        </>
+      )}
+
+      <Link className={styles.back} href="/#proyectos">
+        <span aria-hidden="true">←</span> Volver a proyectos
+        <span className={styles.cmd} aria-hidden="true">
+          cd ..
+        </span>
       </Link>
     </main>
   );

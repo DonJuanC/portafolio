@@ -1,6 +1,6 @@
 import { projects } from "@/content/projects";
 import type { Command, Output } from "./types";
-import { GITHUB, LINKEDIN } from "./links";
+import { GITHUB, LINKEDIN, getMailtoUrl } from "./links";
 
 function slugFrom(arg: string | undefined): string {
   return (arg ?? "").toLowerCase().replace(/\/$/, "");
@@ -59,6 +59,104 @@ export const commands: Command[] = [
     run: () => ({ kind: "projects" }),
   },
   {
+    name: "cd",
+    summary: "navega a un proyecto o vuelve: cd <proyecto> | cd ..",
+    run: ([arg]) => {
+      const target = (arg ?? "").trim().toLowerCase();
+      if (!target || target === "~" || target === "/") {
+        return {
+          kind: "navigate",
+          path: "/",
+          message: "cambiando al directorio raíz (~)",
+        };
+      }
+      if (target === ".." || target === "../") {
+        return {
+          kind: "navigate",
+          path: "/#proyectos",
+          message: "subiendo a proyectos (..)",
+        };
+      }
+      const slug = slugFrom(target.replace(/^(\.\/|proyectos\/)/, ""));
+      const project = projects.find((p) => p.slug === slug);
+      if (!project) {
+        return {
+          kind: "error",
+          message: `cd: ${target}: No existe el archivo o directorio. Prueba con ls.`,
+        };
+      }
+      return {
+        kind: "navigate",
+        path: `/proyectos/${project.slug}`,
+        message: `entrando a ${project.name} (/proyectos/${project.slug})...`,
+      };
+    },
+  },
+  {
+    name: "open",
+    summary: "abre enlaces externos o demos: open [github|linkedin|<proyecto>]",
+    run: ([target, sub]) => {
+      const raw = (target ?? "").trim().toLowerCase();
+      if (!raw) {
+        return {
+          kind: "error",
+          message: "uso: open [github|linkedin|email|<proyecto>]",
+        };
+      }
+      if (["github", "gh"].includes(raw)) {
+        return { kind: "open", url: GITHUB, label: "GitHub (@DonJuanC)" };
+      }
+      if (["linkedin", "in"].includes(raw)) {
+        return { kind: "open", url: LINKEDIN, label: "LinkedIn" };
+      }
+      if (["email", "mail", "correo"].includes(raw)) {
+        return { kind: "open", url: getMailtoUrl(), label: "cliente de correo" };
+      }
+
+      const slug = slugFrom(raw);
+      const project = projects.find((p) => p.slug === slug);
+      if (!project) {
+        return {
+          kind: "error",
+          message: `open: '${raw}' no encontrado. Prueba con: open github, open linkedin o open <proyecto>`,
+        };
+      }
+
+      if (project.links.length === 0) {
+        return {
+          kind: "error",
+          message: `open: ${project.name} no tiene enlaces externos registrados.`,
+        };
+      }
+
+      if (sub) {
+        const subClean = sub.toLowerCase();
+        const matched = project.links.find(
+          (l) =>
+            l.label.toLowerCase().includes(subClean) ||
+            (subClean === "repo" && l.label.toLowerCase().includes("repositorio")),
+        );
+        if (matched) {
+          return {
+            kind: "open",
+            url: matched.url,
+            label: `${project.name} (${matched.label})`,
+          };
+        }
+      }
+
+      const demoLink =
+        project.links.find((l) => l.label.toLowerCase() === "demo") ??
+        project.links[0];
+
+      return {
+        kind: "open",
+        url: demoLink.url,
+        label: `${project.name} (${demoLink.label})`,
+      };
+    },
+  },
+  {
     name: "cat",
     summary: "abre la ficha de un proyecto: cat <proyecto>",
     run: ([arg]) => {
@@ -96,12 +194,27 @@ export const commands: Command[] = [
     },
   },
   {
+    name: "preview",
+    aliases: ["ui", "vista"],
+    summary: "muestra la vista previa de interfaz: preview <proyecto>",
+    run: ([arg]) => {
+      const slug = slugFrom(arg);
+      if (!slug) return { kind: "error", message: "uso: preview <proyecto>" };
+      const project = projects.find((p) => p.slug === slug);
+      if (!project) {
+        return {
+          kind: "error",
+          message: `preview: ${slug}: no existe. Prueba con ls.`,
+        };
+      }
+      return { kind: "preview", slug };
+    },
+  },
+  {
     name: "contact",
-    summary: "cómo encontrarme",
-    run: () => ({
-      kind: "text",
-      lines: [`github    ${GITHUB}`, `linkedin  ${LINKEDIN}`],
-    }),
+    aliases: ["contacto", "email", "mail"],
+    summary: "cómo encontrarme y escribirme",
+    run: () => ({ kind: "contact" }),
   },
   {
     name: "sudo",
@@ -215,7 +328,7 @@ export const commands: Command[] = [
   },
   {
     name: "theme",
-    aliases: ["tema"],
+    aliases: ["tema", "modo"],
     summary: "cambia el tema: theme [dark|light]",
     run: ([arg]) => {
       const mode = (arg ?? "").toLowerCase();
@@ -258,12 +371,34 @@ export function complete(input: string): string {
     return matches.length === 1 ? matches[0] : input;
   }
 
-  // cat/flow: completar slug de proyecto
-  if (["cat", "flow"].includes(first.toLowerCase()) && rest.length === 0) {
-    const matches = projects
-      .filter((p) => p.slug.startsWith(second.toLowerCase()))
-      .map((p) => p.slug);
+  // cat/flow/cd/preview: completar slug de proyecto o rutas relativas
+  if (
+    ["cat", "flow", "cd", "preview"].includes(first.toLowerCase()) &&
+    rest.length === 0
+  ) {
+    const targets =
+      first.toLowerCase() === "cd"
+        ? ["..", "~", ...projects.map((p) => p.slug)]
+        : projects.map((p) => p.slug);
+    const matches = targets.filter((s) =>
+      s.startsWith(second.toLowerCase()),
+    );
     return matches.length === 1 ? `${first} ${matches[0]}` : input;
   }
+
+  // open: completar targets
+  if (first.toLowerCase() === "open" && rest.length === 0) {
+    const targets = [
+      "github",
+      "linkedin",
+      "email",
+      ...projects.map((p) => p.slug),
+    ];
+    const matches = targets.filter((s) =>
+      s.startsWith(second.toLowerCase()),
+    );
+    return matches.length === 1 ? `${first} ${matches[0]}` : input;
+  }
+
   return input;
 }

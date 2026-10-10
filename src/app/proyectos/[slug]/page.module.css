@@ -90,7 +90,33 @@
 }
 
 .back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.back:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* El comando equivalente, como concepto técnico junto al botón */
+.cmd {
+  padding-left: 10px;
+  color: var(--accent);
   font-size: 13px;
+  border-left: 1px solid var(--line);
 }
 
 @media (max-width: 640px) {

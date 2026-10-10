@@ -43,6 +43,12 @@ export const projects: Project[] = [
       },
     ],
 
+    image: {
+      src: "/projects/axora.svg",
+      alt: "Interfaz de la billetera digital multi-moneda AXORA con asistente de IA",
+      caption: "Billetera multi-moneda con asistente conversacional sobre Gemini",
+    },
+
     flow: {
       steps: [
         {
@@ -148,6 +154,12 @@ export const projects: Project[] = [
       },
     ],
 
+    image: {
+      src: "/projects/reciclave.svg",
+      alt: "Interfaz de Reciclá, ve con clasificación normativa de residuos",
+      caption: "Búsqueda semántica sobre base curada de residuos y código de colores",
+    },
+
     flow: {
       steps: [
         {
@@ -240,6 +252,12 @@ export const projects: Project[] = [
       { label: "demo", url: "https://lotr-chat.vercel.app" },
       { label: "repositorio", url: "https://github.com/DonJuanC/lotr-chat" },
     ],
+
+    image: {
+      src: "/projects/lotr-chat.svg",
+      alt: "Interfaz de El Chat de la Tierra Media con personajes y proxy Gemini",
+      caption: "SPA con enrutamiento History API y proxy serverless para API key",
+    },
 
     flow: {
       steps: [
@@ -335,6 +353,12 @@ export const projects: Project[] = [
       },
     ],
 
+    image: {
+      src: "/projects/geekeame-store.svg",
+      alt: "Interfaz de catálogo y checkout transaccional de Geekeame",
+      caption: "Tienda e-commerce con transacción atómica en Firestore y subida a S3",
+    },
+
     flow: {
       steps: [
         {
@@ -411,6 +435,12 @@ export const projects: Project[] = [
       },
     ],
 
+    image: {
+      src: "/projects/watchlist-con-criterio.svg",
+      alt: "Grafo semántico de películas de Watchlist con Criterio",
+      caption: "Explorador de cine con grafo semántico sobre embeddings y pgvector",
+    },
+
     flow: {
       steps: [
         {
@@ -470,5 +500,10 @@ export const projects: Project[] = [
       { label: "demo", url: "https://taskflow-smoky-sigma.vercel.app" },
       { label: "repositorio", url: "https://github.com/DonJuanC/taskflow" },
     ],
+    image: {
+      src: "/projects/taskflow.svg",
+      alt: "Tablero kanban drag and drop de TaskFlow",
+      caption: "Gestor de tareas con drag & drop y notificaciones por AWS SES",
+    },
   },
 ];

@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
+import { useRouter } from "next/navigation";
 import { complete, execute } from "@/lib/commands";
 import OutputView from "./OutputView";
 import styles from "./Terminal.module.css";
 import type { HistoryEntry, ThemeMode } from "@/lib/types";
 
 const PROMPT = "jcamilo@dev:~/cali$";
-const SUGGESTED = ["help", "ls", "cat axora", "flow reciclave", "contact"];
+const SUGGESTED = ["help", "ls", "cd axora", "theme", "contact"];
 
 function applyTheme(mode: ThemeMode): "dark" | "light" {
   const root = document.documentElement;
@@ -25,15 +26,25 @@ function applyTheme(mode: ThemeMode): "dark" | "light" {
 }
 
 export default function Terminal() {
+  const router = useRouter();
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [input, setInput] = useState("");
   const [recall, setRecall] = useState(-1);
   const endRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (history.length === 0) return;
     endRef.current?.scrollIntoView({ block: "nearest" });
   }, [history]);
+
+  useEffect(() => {
+    function handleFocus() {
+      inputRef.current?.focus();
+    }
+    window.addEventListener("focus-terminal", handleFocus);
+    return () => window.removeEventListener("focus-terminal", handleFocus);
+  }, []);
 
   function run(raw: string) {
     const text = raw.trim();
@@ -49,7 +60,12 @@ export default function Terminal() {
           kind: "text",
           lines: [`tema: ${next === "dark" ? "oscuro" : "claro"}`],
         };
+      } else if (output.kind === "navigate") {
+        router.push(output.path);
+      } else if (output.kind === "open") {
+        window.open(output.url, "_blank", "noopener,noreferrer");
       }
+
       const result = output;
       setHistory((prev) => [
         ...prev,
@@ -134,11 +150,17 @@ export default function Terminal() {
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <label htmlFor="comando" className={styles.prompt}>
+        <label htmlFor="comando" className={styles.prompt} aria-hidden="true">
           {PROMPT}
         </label>
+        <span id="comando-label" className={styles.srOnly}>
+          Línea de comandos de la terminal
+        </span>
         <input
+          ref={inputRef}
           id="comando"
+          aria-labelledby="comando-label"
+          aria-label="Línea de comandos de la terminal"
           className={styles.input}
           value={input}
           onChange={(e) => {
@@ -147,7 +169,7 @@ export default function Terminal() {
           }}
           onKeyDown={handleKeyDown}
           autoComplete="off"
-          placeholder="escribe un comando (o 'help')... "
+          placeholder="escribe un comando (ej. 'help', 'theme')... "
           autoCapitalize="off"
           spellCheck={false}
         />

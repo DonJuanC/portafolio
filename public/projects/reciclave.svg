@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <defs>
+    <linearGradient id="recBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14120e"/>
+      <stop offset="100%" stop-color="#181a14"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="680" fill="url(#recBg)"/>
+
+  <!-- Top bar -->
+  <rect x="40" y="30" width="1120" height="60" rx="8" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="70" y="67" fill="#27c93f" font-family="monospace" font-size="20" font-weight="bold">Reciclá, ve</text>
+  <text x="210" y="67" fill="#9b9583" font-family="monospace" font-size="13">código de colores de Colombia · Res. 2184/2019</text>
+  <text x="1000" y="67" fill="#e5a93d" font-family="monospace" font-size="12">pgvector + Gemini</text>
+
+  <!-- Central Search Box -->
+  <rect x="180" y="120" width="840" height="74" rx="8" fill="#1b1914" stroke="#e5a93d" stroke-width="2"/>
+  <text x="210" y="165" fill="#e9e4d4" font-family="monospace" font-size="18">¿Qué residuo vas a botar? </text>
+  <text x="475" y="165" fill="#f3c36b" font-family="monospace" font-size="18" font-weight="bold">caja de pizza grasosa_</text>
+
+  <!-- Result Container -->
+  <rect x="180" y="220" width="840" height="390" rx="10" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  
+  <!-- Caneca Indicator Header -->
+  <rect x="220" y="250" width="220" height="42" rx="6" fill="#14120e" stroke="#2c2921"/>
+  <circle cx="242" cy="271" r="8" fill="#3a362c" stroke="#9b9583" stroke-width="1.5"/>
+  <text x="260" y="277" fill="#e9e4d4" font-family="monospace" font-size="14" font-weight="bold">CANECA NEGRA</text>
+
+  <rect x="460" y="250" width="260" height="42" rx="6" fill="#24211a"/>
+  <text x="480" y="276" fill="#e5a93d" font-family="monospace" font-size="12">✓ Clasificación directa (0.83)</text>
+
+  <!-- Explanation -->
+  <text x="220" y="335" fill="#e9e4d4" font-family="monospace" font-size="22" font-weight="bold">No aprovechable / contaminada con grasa</text>
+  <text x="220" y="375" fill="#9b9583" font-family="monospace" font-size="14">Aunque el cartón limpio va en la caneca blanca, el aceite y los restos de comida impiden su</text>
+  <text x="220" y="398" fill="#9b9583" font-family="monospace" font-size="14">reciclaje mecánico sin contaminar la pulpa. Si la tapa superior está limpia, sepárala.</text>
+
+  <!-- Architecture Decision Box -->
+  <rect x="220" y="440" width="760" height="135" rx="8" fill="#14120e" stroke="#2c2921"/>
+  <text x="245" y="472" fill="#e5a93d" font-family="monospace" font-size="13" font-weight="bold">⚡ LÓGICA DE DECISIÓN (Calibrada con 19 pruebas)</text>
+  <text x="245" y="502" fill="#9b9583" font-family="monospace" font-size="12">• Búsqueda semántica (pgvector): coincidencia con 'cartón contaminado con comida' (0.83)</text>
+  <text x="245" y="525" fill="#9b9583" font-family="monospace" font-size="12">• Margen con 2° resultado (0.12 &gt; umbral 0.05): sin ambigüedad, responde base curada</text>
+  <text x="245" y="548" fill="#27c93f" font-family="monospace" font-size="12">• Consulta a LLM evitada: respuesta instantánea en 48ms con fuente normativa</text>
+</svg>

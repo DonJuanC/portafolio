@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Terminal from "@/components/Terminal";
+import CopyEmailButton from "@/components/CopyEmailButton";
+import TerminalPromptHint from "@/components/TerminalPromptHint";
 import { projects } from "@/content/projects";
 import { statusLabel } from "@/lib/labels";
 import { GITHUB, LINKEDIN } from "@/lib/links";
@@ -38,7 +40,9 @@ export default function Home() {
           >
             LinkedIn
           </a>
+          <CopyEmailButton />
         </div>
+        <TerminalPromptHint />
       </header>
 
       <section id="proyectos" aria-labelledby="proyectos-titulo">
@@ -74,8 +78,13 @@ export default function Home() {
         </ul>
       </section>
 
-      <details className={styles.extra}>
-        <summary>¿Curioso? Abre la terminal</summary>
+      <details className={styles.extra} id="terminal">
+        <summary>
+          <span>¿Curioso? Abre la terminal</span>
+          <span className={styles.summaryThemeTip}>
+            (escribe <code>theme</code> para alternar modo claro/oscuro)
+          </span>
+        </summary>
         <Terminal />
       </details>
     </main>

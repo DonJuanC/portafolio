@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14120e"/>
+      <stop offset="100%" stop-color="#1a1813"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e5a93d"/>
+      <stop offset="100%" stop-color="#f3c36b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="680" fill="url(#bgGrad)"/>
+
+  <!-- Top Nav in app -->
+  <rect x="40" y="30" width="1120" height="64" rx="8" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="70" y="69" fill="#e5a93d" font-family="monospace" font-size="20" font-weight="bold">AXORA</text>
+  <text x="160" y="69" fill="#9b9583" font-family="monospace" font-size="13">billetera multi-moneda</text>
+  <rect x="940" y="46" width="190" height="32" rx="6" fill="#2c2921"/>
+  <text x="960" y="67" fill="#e9e4d4" font-family="monospace" font-size="12">jcamilo@dev (verificado)</text>
+
+  <!-- Main Balance Card -->
+  <rect x="40" y="118" width="700" height="230" rx="10" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="70" y="156" fill="#9b9583" font-family="monospace" font-size="13">SALDO CONSOLIDADO</text>
+  <text x="70" y="210" fill="#e9e4d4" font-family="monospace" font-size="44" font-weight="bold">$ 14,820.50 <tspan fill="#e5a93d" font-size="20">USD</tspan></text>
+  
+  <!-- Mini Currency Badges -->
+  <rect x="70" y="246" width="96" height="42" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="82" y="266" fill="#9b9583" font-family="monospace" font-size="10">USD</text>
+  <text x="82" y="281" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">$8,450</text>
+
+  <rect x="176" y="246" width="96" height="42" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="188" y="266" fill="#9b9583" font-family="monospace" font-size="10">EUR</text>
+  <text x="188" y="281" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">€4,120</text>
+
+  <rect x="282" y="246" width="110" height="42" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="294" y="266" fill="#9b9583" font-family="monospace" font-size="10">COP</text>
+  <text x="294" y="281" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">$4.2M</text>
+
+  <rect x="402" y="246" width="96" height="42" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="414" y="266" fill="#9b9583" font-family="monospace" font-size="10">MXN</text>
+  <text x="414" y="281" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">$18,400</text>
+
+  <rect x="508" y="246" width="96" height="42" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="520" y="266" fill="#9b9583" font-family="monospace" font-size="10">BRL</text>
+  <text x="520" y="281" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">R$6,300</text>
+
+  <rect x="614" y="246" width="96" height="42" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="626" y="266" fill="#9b9583" font-family="monospace" font-size="10">ARS</text>
+  <text x="626" y="281" fill="#e9e4d4" font-family="monospace" font-size="12" font-weight="bold">$920k</text>
+
+  <text x="70" y="324" fill="#8a5a00" font-family="monospace" font-size="12">✓ Tasa congelada por 60 min (PostgreSQL cache + 3 niveles de respaldo)</text>
+
+  <!-- Right AI Assistant Card -->
+  <rect x="760" y="118" width="400" height="520" rx="10" fill="#1b1914" stroke="#e5a93d" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <rect x="780" y="138" width="130" height="24" rx="4" fill="#2c2921"/>
+  <text x="790" y="154" fill="#e5a93d" font-family="monospace" font-size="11">✨ GEMINI ASSISTANT</text>
+  
+  <rect x="780" y="180" width="360" height="70" rx="6" fill="#14120e" stroke="#2c2921"/>
+  <text x="795" y="206" fill="#9b9583" font-family="monospace" font-size="11">Persona:</text>
+  <text x="795" y="228" fill="#e9e4d4" font-family="monospace" font-size="13">«Cambia 500 dólares a euros para el viaje»</text>
+
+  <rect x="780" y="266" width="360" height="150" rx="6" fill="#14120e" stroke="#2c2921"/>
+  <text x="795" y="292" fill="#e5a93d" font-family="monospace" font-size="11">Propuesta calculada:</text>
+  <text x="795" y="316" fill="#e9e4d4" font-family="monospace" font-size="12">• Débito: 500.00 USD</text>
+  <text x="795" y="338" fill="#e9e4d4" font-family="monospace" font-size="12">• Tasa: 1 USD = 0.9234 EUR</text>
+  <text x="795" y="360" fill="#e9e4d4" font-family="monospace" font-size="12">• Crédito: +461.70 EUR (comisión 0.3%)</text>
+  <text x="795" y="392" fill="#9b9583" font-family="monospace" font-size="11">Esperando confirmación...</text>
+
+  <rect x="780" y="440" width="170" height="44" rx="6" fill="#e5a93d"/>
+  <text x="815" y="467" fill="#14120e" font-family="monospace" font-size="13" font-weight="bold">Confirmar cambio</text>
+
+  <rect x="965" y="440" width="175" height="44" rx="6" fill="#24211a" stroke="#2c2921"/>
+  <text x="1015" y="467" fill="#9b9583" font-family="monospace" font-size="13">Cancelar</text>
+
+  <text x="780" y="520" fill="#8a8473" font-family="monospace" font-size="11">🔒 Transacción atómica en Neon Postgres</text>
+
+  <!-- Left Bottom Recent Transactions -->
+  <rect x="40" y="370" width="700" height="268" rx="10" fill="#1b1914" stroke="#2c2921" stroke-width="1.5"/>
+  <text x="70" y="408" fill="#9b9583" font-family="monospace" font-size="13">HISTORIAL DE MOVIMIENTOS RECIENTES</text>
+
+  <!-- Row 1 -->
+  <line x1="70" y1="430" x2="710" y2="430" stroke="#2c2921" stroke-width="1"/>
+  <text x="70" y="456" fill="#e9e4d4" font-family="monospace" font-size="13">Cambio de divisa (USD → EUR)</text>
+  <text x="70" y="474" fill="#9b9583" font-family="monospace" font-size="11">Tasa 0.9234 · Comisión 0.3%</text>
+  <text x="590" y="465" fill="#e5a93d" font-family="monospace" font-size="14" font-weight="bold">+461.70 EUR</text>
+
+  <!-- Row 2 -->
+  <line x1="70" y1="496" x2="710" y2="496" stroke="#2c2921" stroke-width="1"/>
+  <text x="70" y="522" fill="#e9e4d4" font-family="monospace" font-size="13">Transferencia recibida (Juan C.)</text>
+  <text x="70" y="540" fill="#9b9583" font-family="monospace" font-size="11">Ref: #TX-9842 · SES confirmación enviada</text>
+  <text x="590" y="531" fill="#27c93f" font-family="monospace" font-size="14" font-weight="bold">+1,200.00 USD</text>
+
+  <!-- Row 3 -->
+  <line x1="70" y1="562" x2="710" y2="562" stroke="#2c2921" stroke-width="1"/>
+  <text x="70" y="588" fill="#e9e4d4" font-family="monospace" font-size="13">Recarga vía tarjeta internacional</text>
+  <text x="70" y="606" fill="#9b9583" font-family="monospace" font-size="11">Procesado por Render backend</text>
+  <text x="590" y="597" fill="#27c93f" font-family="monospace" font-size="14" font-weight="bold">+500.00 USD</text>
+</svg>

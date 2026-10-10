@@ -178,6 +178,24 @@
   color: var(--accent);
   cursor: pointer;
   list-style: none;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.summaryThemeTip {
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.summaryThemeTip code {
+  color: var(--accent);
+  padding: 1px 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px;
 }
 
 .extra summary::-webkit-details-marker {
