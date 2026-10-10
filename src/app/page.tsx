@@ -1,62 +1,83 @@
-import styles from "./page.module.css";
-import { projects } from "@/content/projects";
 import Link from "next/link";
-import { statusLabel } from "@/lib/labels";
 import Terminal from "@/components/Terminal";
+import { projects } from "@/content/projects";
+import { statusLabel } from "@/lib/labels";
+import { GITHUB, LINKEDIN } from "@/lib/links";
+import styles from "./page.module.css";
 
 export default function Home() {
-  const featured = projects.filter((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
-
   return (
     <main className={styles.screen}>
-      <p className={styles.line}>
-        <span className={styles.prompt}>jcamilo@dev:~/cali$</span>whoami
-      </p>
-      <h1 className={styles.title}>JCamilo Castellanos.</h1>
-      <p className={styles.dim}>
-        Full Stack Developer · Ingeniero Industrial · Cali, Colombia
-      </p>
+      <header className={styles.hero}>
+        <p className={styles.signature}>jcamilo@dev:~/cali$</p>
+        <h1 className={styles.title}>JCamilo Castellanos</h1>
+        <p className={styles.role}>
+          Full Stack Developer · Ingeniero industrial · Cali, Colombia
+        </p>
+        <p className={styles.lead}>
+          Desarrollador Full Stack con mirada de ingeniero industrial. Aquí, un
+          poco de mi mundo (y algunos easter eggs).
+        </p>
+        <div className={styles.actions}>
+          <a className={`${styles.btn} ${styles.btnPrimary}`} href="#proyectos">
+            Ver proyectos
+          </a>
+          <a
+            className={styles.btn}
+            href={GITHUB}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          <a
+            className={styles.btn}
+            href={LINKEDIN}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </header>
 
-      <p className={styles.line}>
-        <span className={styles.prompt}>jcamilo@dev:~/cali$</span>ls proyectos/
-      </p>
-
-      <ul className={styles.featured}>
-        {featured.map((p) => (
-          <li key={p.slug} className={styles.item}>
-            <div className={styles.itemHead}>
-              <span className={styles.star} aria-hidden="true">
-                ★
-              </span>
-              <Link className={styles.name} href={`/proyectos/${p.slug}`}>
-                {p.slug}/
+      <section id="proyectos" aria-labelledby="proyectos-titulo">
+        <h2 id="proyectos-titulo" className={styles.sectionTitle}>
+          Proyectos
+        </h2>
+        <ul className={styles.grid}>
+          {projects.map((p) => (
+            <li key={p.slug} className={p.featured ? styles.wide : undefined}>
+              <Link href={`/proyectos/${p.slug}`} className={styles.card}>
+                <span className={styles.name}>{p.name}</span>
+                <span className={styles.badges}>
+                  {p.featured && <span className={styles.badge}>★ destacado</span>}
+                  <span
+                    className={`${styles.badge} ${
+                      p.status === "deployed" ? styles.badgeOn : ""
+                    }`}
+                  >
+                    {statusLabel[p.status]}
+                  </span>
+                  {p.tag && <span className={styles.badge}>{p.tag}</span>}
+                  {p.team && (
+                    <span className={styles.badge}>equipo: {p.team}</span>
+                  )}
+                </span>
+                <span className={styles.tagline}>{p.tagline}</span>
+                <span className={styles.cta}>
+                  Ver proyecto <span aria-hidden="true">→</span>
+                </span>
               </Link>
-              {p.tag && <span className={styles.tag}>[{p.tag}]</span>}
-            </div>
-            <p className={styles.tagline}>{p.tagline}</p>
-            <p className={styles.meta}>
-              <span className={p.status === "deployed" ? styles.statusOn : ""}>
-                {statusLabel[p.status]}
-              </span>
-              {p.team && ` · equipo: ${p.team}`}
-            </p>
-          </li>
-        ))}
-      </ul>
-
-      {rest.length > 0 && (
-        <ul className={styles.compact}>
-          {rest.map((p) => (
-            <li key={p.slug} className={styles.row}>
-              <span className={styles.rowName}>{p.slug}/</span>
-              <span className={styles.rowTagline}>{p.tagline}</span>
-              <span className={styles.rowStatus}>{statusLabel[p.status]}</span>
             </li>
           ))}
         </ul>
-      )}
-      <Terminal />
+      </section>
+
+      <details className={styles.extra}>
+        <summary>¿Curioso? Abre la terminal</summary>
+        <Terminal />
+      </details>
     </main>
   );
 }

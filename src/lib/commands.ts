@@ -1,8 +1,6 @@
 import { projects } from "@/content/projects";
 import type { Command, Output } from "./types";
-
-const GITHUB = "https://github.com/DonJuanC";
-const LINKEDIN = "https://www.linkedin.com/in/juancamilo-castellanos-uribe";
+import { GITHUB, LINKEDIN } from "./links";
 
 function slugFrom(arg: string | undefined): string {
   return (arg ?? "").toLowerCase().replace(/\/$/, "");
