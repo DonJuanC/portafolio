@@ -152,8 +152,10 @@ export const commands: Command[] = [
     run: ([arg]) => {
       const mode = (arg ?? "").toLowerCase();
       if (!mode) return { kind: "theme", mode: "toggle" };
-      if (mode === "dark" || mode === "oscuro") return { kind: "theme", mode: "dark" };
-      if (mode === "light" || mode === "claro") return { kind: "theme", mode: "light" };
+      if (mode === "dark" || mode === "oscuro")
+        return { kind: "theme", mode: "dark" };
+      if (mode === "light" || mode === "claro")
+        return { kind: "theme", mode: "light" };
       return { kind: "error", message: "uso: theme [dark|light]" };
     },
   },
@@ -174,4 +176,26 @@ export function execute(input: string): Output {
     };
   }
   return command.run(args);
+}
+/** Devuelve la línea completada si hay una única coincidencia; si no, la misma entrada. */
+export function complete(input: string): string {
+  const [first = "", second, ...rest] = input.trimStart().split(/\s+/);
+  const hasSecond = second !== undefined;
+
+  // Un solo token: completar nombre de comando (sin los ocultos)
+  if (!hasSecond) {
+    const matches = commands
+      .filter((c) => !c.hidden && c.name.startsWith(first.toLowerCase()))
+      .map((c) => c.name);
+    return matches.length === 1 ? matches[0] : input;
+  }
+
+  // cat/flow: completar slug de proyecto
+  if (["cat", "flow"].includes(first.toLowerCase()) && rest.length === 0) {
+    const matches = projects
+      .filter((p) => p.slug.startsWith(second.toLowerCase()))
+      .map((p) => p.slug);
+    return matches.length === 1 ? `${first} ${matches[0]}` : input;
+  }
+  return input;
 }

@@ -33,6 +33,20 @@
   display: flex;
   align-items: center;
   gap: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: text;
+}
+
+.form:hover {
+  border-color: var(--text-faint);
+}
+
+.form:focus-within {
+  border-color: var(--accent);
 }
 
 .input {
@@ -46,9 +60,13 @@
   caret-color: var(--accent);
 }
 
+.input::placeholder {
+  color: var(--text-faint);
+}
+
+/* el recuadro entero ya marca el foco; el input no necesita su propio contorno */
 .input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
+  outline: none;
 }
 
 .text {

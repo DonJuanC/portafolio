@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
-import { execute } from "@/lib/commands";
+import { complete, execute } from "@/lib/commands";
 import OutputView from "./OutputView";
 import styles from "./Terminal.module.css";
 import type { HistoryEntry, ThemeMode } from "@/lib/types";
@@ -13,7 +13,8 @@ const SUGGESTED = ["help", "ls", "cat axora", "flow reciclave", "contact"];
 function applyTheme(mode: ThemeMode): "dark" | "light" {
   const root = document.documentElement;
   const current = root.dataset.theme === "light" ? "light" : "dark";
-  const next = mode === "toggle" ? (current === "dark" ? "light" : "dark") : mode;
+  const next =
+    mode === "toggle" ? (current === "dark" ? "light" : "dark") : mode;
   root.dataset.theme = next;
   try {
     localStorage.setItem("theme", next);
@@ -91,6 +92,12 @@ export default function Terminal() {
         setInput(past[next] ?? "");
       }
     }
+
+    if (e.key === "Tab") {
+      e.preventDefault();
+      setInput((v) => complete(v));
+      return;
+    }
   }
 
   return (
@@ -140,6 +147,7 @@ export default function Terminal() {
           }}
           onKeyDown={handleKeyDown}
           autoComplete="off"
+          placeholder="escribe un comando (o 'help')... "
           autoCapitalize="off"
           spellCheck={false}
         />

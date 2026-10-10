@@ -240,6 +240,69 @@ export const projects: Project[] = [
       { label: "demo", url: "https://lotr-chat.vercel.app" },
       { label: "repositorio", url: "https://github.com/DonJuanC/lotr-chat" },
     ],
+
+    flow: {
+      steps: [
+        {
+          id: "mensaje",
+          kind: "input",
+          label: "La persona le escribe a un personaje",
+          detail: "Gandalf, Gollum, Aragorn, Bilbo, Legolas, Gimli o Saruman",
+        },
+        {
+          id: "peticion",
+          kind: "process",
+          label: "El navegador envía la conversación a una función serverless",
+          detail: "La API key de Gemini nunca sale del servidor",
+        },
+        {
+          id: "valida",
+          kind: "decision",
+          label: "¿La solicitud es válida?",
+          detail: "Método POST, personaje existente y mensaje presente",
+          then: [
+            { to: "gemini", when: "sí" },
+            { to: "rechazo", when: "no" },
+          ],
+        },
+        {
+          id: "gemini",
+          kind: "process",
+          label: "Gemini responde en el papel del personaje",
+          detail: "System prompt propio, historial de la conversación y máximo de 500 tokens",
+        },
+        {
+          id: "respondio",
+          kind: "decision",
+          label: "¿Respondió Gemini?",
+          then: [
+            { to: "guardar", when: "sí" },
+            { to: "fallo", when: "no" },
+          ],
+        },
+        {
+          id: "guardar",
+          kind: "output",
+          label: "Muestra la respuesta y guarda la conversación en el navegador",
+          detail: "Una historia por personaje",
+        },
+        {
+          id: "fallo",
+          kind: "output",
+          label: "Muestra el error con su código HTTP",
+          detail: "Si es 429 (cuota agotada), con un mensaje claro",
+        },
+        {
+          id: "rechazo",
+          kind: "output",
+          label: "Rechaza la solicitud con un 400",
+        },
+      ],
+      highlight: {
+        stepId: "peticion",
+        note: "El navegador nunca habla directo con Gemini: la key vive solo en el servidor.",
+      },
+    },
   },
   {
     slug: "geekeame-store",
@@ -271,6 +334,52 @@ export const projects: Project[] = [
         url: "https://github.com/DonJuanC/geekeame-store",
       },
     ],
+
+    flow: {
+      steps: [
+        {
+          id: "compra",
+          kind: "input",
+          label: "La persona confirma su compra",
+          detail: "Con sesión iniciada y el carrito con productos",
+        },
+        {
+          id: "transaccion",
+          kind: "process",
+          label: "Se abre una transacción en Firestore y se leen los productos",
+          detail: "Con un límite de 20 segundos",
+        },
+        {
+          id: "stock",
+          kind: "decision",
+          label: "¿Hay stock de todos los productos?",
+          then: [
+            { to: "descuento", when: "sí" },
+            { to: "agotado", when: "no" },
+          ],
+        },
+        {
+          id: "descuento",
+          kind: "process",
+          label: "Se descuenta el stock de cada producto",
+        },
+        {
+          id: "orden",
+          kind: "output",
+          label: "Se crea la orden en estado pendiente",
+        },
+        {
+          id: "agotado",
+          kind: "output",
+          label: "Se cancela todo y se avisa qué producto ya no alcanza",
+          detail: "Con las unidades disponibles",
+        },
+      ],
+      highlight: {
+        stepId: "stock",
+        note: "Leer, validar y descontar ocurre en una sola transacción: dos compras a la vez no pueden vender la misma unidad.",
+      },
+    },
   },
   {
     slug: "watchlist-con-criterio",
