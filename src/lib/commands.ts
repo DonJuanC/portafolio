@@ -8,6 +8,31 @@ function slugFrom(arg: string | undefined): string {
   return (arg ?? "").toLowerCase().replace(/\/$/, "");
 }
 
+const CANON: [RegExp, string][] = [
+  [/gemini/i, "Google Gemini"],
+  [/^react( 19)?$/i, "React"],
+  [/vitest/i, "Vitest"],
+  [/postgres/i, "PostgreSQL (Neon)"],
+  [/^vercel/i, "Vercel"],
+  [/firebase/i, "Firebase"],
+  [/tailwind/i, "Tailwind CSS"],
+];
+
+function canon(tech: string): string {
+  return CANON.find(([re]) => re.test(tech))?.[1] ?? tech;
+}
+
+function stackUsage(): [string, number][] {
+  const counts = new Map<string, number>();
+  for (const p of projects) {
+    // Set: un proyecto cuenta una sola vez por tecnología normalizada
+    for (const tech of new Set(p.stack.map(canon))) {
+      counts.set(tech, (counts.get(tech) ?? 0) + 1);
+    }
+  }
+  return [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+}
+
 export const commands: Command[] = [
   {
     name: "help",
@@ -142,6 +167,18 @@ export const commands: Command[] = [
   },
 
   {
+    name: "skills",
+    aliases: ["stack"],
+    summary: "tecnologías que uso, según mis proyectos",
+    run: () => ({
+      kind: "text",
+      lines: [
+        "# tecnologías por número de proyectos donde aparecen",
+        ...stackUsage().map(([tech, n]) => `${String(n).padStart(2)}  ${tech}`),
+      ],
+    }),
+  },
+  {
     name: "mcc",
     aliases: ["musica"],
     summary: "música con criterio: blog y podcast",
@@ -161,7 +198,7 @@ export const commands: Command[] = [
     run: () => ({
       kind: "text",
       lines: [
-        "DonJuanCelektor: el selector  musical detrás de Música con Criterio.",
+        "DonJuanCelektor: el selector musical detrás de Música con Criterio.",
         "Solo aparece en eventos en vivo.",
       ],
     }),
