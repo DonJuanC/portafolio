@@ -5,18 +5,26 @@
   background: #e9e3d4;
   border-radius: 6px;
   container-type: inline-size;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .art {
   margin: 0;
   color: #14120e;
   font-family: inherit;
-  /* 258 columnas de ancho; 0.6 = ancho de un carácter monoespaciado */
-  font-size: calc(100cqw / 258 / 0.6);
+  /* 258 columnas de ancho; mínimo 3.2px para nitidez en pantallas pequeñas */
+  font-size: max(3.2px, calc(100cqw / 258 / 0.6));
   line-height: 1;
   white-space: pre;
-  overflow: hidden;
   animation: reveal 3.5s steps(70, end) both;
+  user-select: none;
+}
+
+.caption {
+  margin: 6px 0 0;
+  color: #5d5747;
+  font-size: 11px;
 }
 
 @keyframes reveal {

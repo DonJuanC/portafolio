@@ -32,6 +32,9 @@ export default function AsciiFace() {
       >
         {text}
       </pre>
+      <figcaption className={styles.caption}>
+        # retrato ascii · desliza horizontalmente si tu pantalla es pequeña
+      </figcaption>
     </figure>
   );
 }
