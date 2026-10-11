@@ -37,9 +37,14 @@ export const commands: Command[] = [
     summary: "lista los comandos disponibles",
     run: () => ({
       kind: "text",
-      lines: commands
-        .filter((c) => !c.hidden)
-        .map((c) => `${c.name.padEnd(8)} ${c.summary}`),
+      lines: [
+        ...commands
+          .filter((c) => !c.hidden)
+          .map((c) => `${c.name.padEnd(8)} ${c.summary}`),
+        "",
+        "# ¿buscas más? Hay secretos en el sistema.",
+        "# pista: ¿tienes permisos de root? ¿o prefieres un cafe?",
+      ],
     }),
   },
   {

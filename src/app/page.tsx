@@ -2,6 +2,7 @@ import Link from "next/link";
 import Terminal from "@/components/Terminal";
 import CopyEmailButton from "@/components/CopyEmailButton";
 import TerminalPromptHint from "@/components/TerminalPromptHint";
+import EasterEggHint from "@/components/EasterEggHint";
 import { projects } from "@/content/projects";
 import { statusLabel } from "@/lib/labels";
 import { GITHUB, LINKEDIN } from "@/lib/links";
@@ -18,7 +19,7 @@ export default function Home() {
         </p>
         <p className={styles.lead}>
           Desarrollador Full Stack con mirada de ingeniero industrial. Aquí, un
-          poco de mi mundo (y algunos easter eggs).
+          poco de mi mundo <EasterEggHint />.
         </p>
         <div className={styles.actions}>
           <a className={`${styles.btn} ${styles.btnPrimary}`} href="#proyectos">
