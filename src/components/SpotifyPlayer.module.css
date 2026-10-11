@@ -24,6 +24,13 @@
   border-bottom: 1px dashed var(--line);
 }
 
+.headerLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .brand {
   display: flex;
   flex-direction: column;

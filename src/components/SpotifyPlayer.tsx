@@ -33,15 +33,26 @@ export default function SpotifyPlayer({ initialPlaylistId }: SpotifyPlayerProps)
               : "Curaduría sonora humana · Cero shuffle algorítmico"}
           </p>
         </div>
-        <a
-          href={SPOTIFY_PROFILE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.profileLink}
-          title={isEn ? "Open DonJuanCelektor profile on Spotify" : "Abrir perfil de DonJuanCelektor en Spotify"}
-        >
-          {isEn ? "Spotify Profile" : "Perfil Spotify"} ↗
-        </a>
+        <div className={styles.headerLinks}>
+          <a
+            href={`https://open.spotify.com/playlist/${active.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.profileLink}
+            title={isEn ? "Open playlist on Spotify" : "Abrir playlist en Spotify"}
+          >
+            {isEn ? "Open Playlist" : "Abrir Playlist"} ↗
+          </a>
+          <a
+            href={SPOTIFY_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.profileLink}
+            title={isEn ? "Open DonJuanCelektor profile on Spotify" : "Abrir perfil de DonJuanCelektor en Spotify"}
+          >
+            {isEn ? "Profile" : "Perfil"} ↗
+          </a>
+        </div>
       </header>
 
       <div>
@@ -73,8 +84,8 @@ export default function SpotifyPlayer({ initialPlaylistId }: SpotifyPlayerProps)
         <p className={styles.playlistDesc}>{active.description[locale]}</p>
         <p className={styles.previewTip}>
           {isEn
-            ? "💡 Click ▶ on any track below to play its 30s preview."
-            : "💡 Haz clic en ▶ en cualquier tema abajo para escuchar su preview de 30s."}
+            ? "💡 Click directly on a track below to play preview (requires active Spotify session in browser)."
+            : "💡 Haz clic directamente en una canción abajo para escuchar el preview (requiere sesión iniciada en Spotify en este navegador)."}
         </p>
       </div>
 
@@ -86,6 +97,7 @@ export default function SpotifyPlayer({ initialPlaylistId }: SpotifyPlayerProps)
           width="100%"
           height="352"
           frameBorder="0"
+          allowFullScreen
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
           title={`Spotify: ${active.title}`}
