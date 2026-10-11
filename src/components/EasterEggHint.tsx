@@ -33,8 +33,8 @@ export default function EasterEggHint() {
         className={styles.trigger}
         title={
           isEn
-            ? "Open terminal (try 'face' or 'sudo')"
-            : "Abrir terminal (prueba 'face' o 'sudo')"
+            ? "Open terminal (try 'spotify', 'face' or 'sudo')"
+            : "Abrir terminal (prueba 'spotify', 'face' o 'sudo')"
         }
       >
         {t.hero.easterEggTrigger}
@@ -44,11 +44,13 @@ export default function EasterEggHint() {
         <span className={styles.tooltip} role="tooltip">
           {isEn ? (
             <>
-              terminal: try <code>face</code> or <code>sudo</code>
+              terminal: try <code>spotify</code>, <code>face</code> or{" "}
+              <code>sudo</code>
             </>
           ) : (
             <>
-              terminal: prueba <code>face</code> o <code>sudo</code>
+              terminal: prueba <code>spotify</code>, <code>face</code> o{" "}
+              <code>sudo</code>
             </>
           )}
         </span>

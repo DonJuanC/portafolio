@@ -9,6 +9,7 @@ import Link from "next/link";
 import AsciiFace from "./AsciiFace";
 import ContactOutput from "./ContactOutput";
 import ProjectPreview from "./ProjectPreview";
+import SpotifyPlayer from "./SpotifyPlayer";
 
 export default function OutputView({ output }: { output: Output }) {
   const { locale, projects } = useLanguage();
@@ -101,5 +102,8 @@ export default function OutputView({ output }: { output: Output }) {
 
     case "ascii":
       return <AsciiFace />;
+
+    case "spotify":
+      return <SpotifyPlayer initialPlaylistId={output.playlistId} />;
   }
 }

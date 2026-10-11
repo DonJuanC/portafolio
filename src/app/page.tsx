@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Terminal from "@/components/Terminal";
 import CopyEmailButton from "@/components/CopyEmailButton";
+import SpotifyTriggerButton from "@/components/SpotifyTriggerButton";
 import TerminalPromptHint from "@/components/TerminalPromptHint";
 import EasterEggHint from "@/components/EasterEggHint";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -48,6 +49,7 @@ export default function Home() {
             {t.hero.actions.linkedin}
           </a>
           <CopyEmailButton />
+          <SpotifyTriggerButton />
         </div>
         <TerminalPromptHint />
       </header>

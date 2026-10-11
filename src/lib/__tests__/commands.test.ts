@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { execute, complete } from "../commands";
-import { getContactEmail, getMailtoUrl, GITHUB, LINKEDIN } from "../links";
+import { getContactEmail, getMailtoUrl, GITHUB, LINKEDIN, SPOTIFY_PROFILE } from "../links";
 
 describe("commands: execute", () => {
   it("help returns available commands", () => {
@@ -70,6 +70,12 @@ describe("commands: execute", () => {
       label: "LinkedIn",
     });
 
+    expect(execute("open spotify")).toEqual({
+      kind: "open",
+      url: SPOTIFY_PROFILE,
+      label: "Spotify (@DonJuanCelektor)",
+    });
+
     const openProject = execute("open axora");
     expect(openProject.kind).toBe("open");
     if (openProject.kind === "open") {
@@ -101,6 +107,32 @@ describe("commands: execute", () => {
     expect(execute("contact")).toEqual({ kind: "contact" });
     expect(execute("contacto")).toEqual({ kind: "contact" });
     expect(execute("email")).toEqual({ kind: "contact" });
+  });
+
+  it("spotify command opens player or loads specific playlist", () => {
+    expect(execute("spotify")).toEqual({ kind: "spotify" });
+    expect(execute("curaduria")).toEqual({ kind: "spotify" });
+    expect(execute("musica")).toEqual({ kind: "spotify" });
+
+    expect(execute("spotify rumba")).toEqual({
+      kind: "spotify",
+      playlistId: "1eil5DN13vMyGAhqTHZk9b",
+    });
+
+    expect(execute("spotify michi")).toEqual({
+      kind: "spotify",
+      playlistId: "4JBcpfh1uRLNz3oWj3Yda0",
+    });
+
+    expect(execute("spotify baladas")).toEqual({
+      kind: "spotify",
+      playlistId: "0s14siuRn4H623Q4ziBXev",
+    });
+
+    expect(execute("mcc play")).toEqual({ kind: "spotify" });
+    expect(execute("djc play")).toEqual({ kind: "spotify" });
+
+    expect(execute("spotify playlist-desconocida").kind).toBe("error");
   });
 
   it("theme toggles or changes theme mode", () => {
@@ -228,6 +260,12 @@ describe("commands: complete", () => {
   it("autocompletes lang options", () => {
     expect(complete("lang en")).toBe("lang en");
     expect(complete("lang es")).toBe("lang es");
+  });
+
+  it("autocompletes spotify commands and playlist slugs", () => {
+    expect(complete("spot")).toBe("spotify");
+    expect(complete("spotify rum")).toBe("spotify rumba-con-criterio");
+    expect(complete("open spo")).toBe("open spotify");
   });
 });
 

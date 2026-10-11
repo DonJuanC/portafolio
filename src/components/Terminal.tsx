@@ -36,20 +36,34 @@ export default function Terminal() {
 
   const suggestedCommands =
     locale === "en"
-      ? ["help", "ls", "cd axora", "theme", "lang es"]
-      : ["help", "ls", "cd axora", "theme", "lang en"];
+      ? ["help", "ls", "spotify", "cd axora", "theme", "lang es"]
+      : ["help", "ls", "spotify", "cd axora", "theme", "lang en"];
 
   useEffect(() => {
     if (history.length === 0) return;
     endRef.current?.scrollIntoView({ block: "nearest" });
   }, [history]);
 
+  const runRef = useRef<(raw: string) => void>(() => {});
+
   useEffect(() => {
     function handleFocus() {
       inputRef.current?.focus();
     }
+    function handleRunCommand(event: Event) {
+      const custom = event as CustomEvent<string>;
+      if (custom.detail) {
+        runRef.current(custom.detail);
+      } else {
+        inputRef.current?.focus();
+      }
+    }
     window.addEventListener("focus-terminal", handleFocus);
-    return () => window.removeEventListener("focus-terminal", handleFocus);
+    window.addEventListener("run-terminal-command", handleRunCommand);
+    return () => {
+      window.removeEventListener("focus-terminal", handleFocus);
+      window.removeEventListener("run-terminal-command", handleRunCommand);
+    };
   }, []);
 
   function run(raw: string) {
@@ -96,6 +110,10 @@ export default function Terminal() {
     setInput("");
     setRecall(-1);
   }
+
+  useEffect(() => {
+    runRef.current = run;
+  });
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

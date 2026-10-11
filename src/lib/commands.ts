@@ -1,7 +1,8 @@
 import { getProjects } from "@/content/projects";
+import { findPlaylist, PLAYLISTS } from "@/content/music";
 import type { Locale } from "@/content/i18n";
 import type { Command, Output } from "./types";
-import { GITHUB, LINKEDIN, getMailtoUrl } from "./links";
+import { GITHUB, LINKEDIN, SPOTIFY_PROFILE, getMailtoUrl } from "./links";
 
 function slugFrom(arg: string | undefined): string {
   return (arg ?? "").toLowerCase().replace(/\/$/, "");
@@ -140,8 +141,8 @@ export function getCommands(locale: Locale = "es"): Command[] {
           return {
             kind: "error",
             message: isEn
-              ? "usage: open [github|linkedin|email|<project>]"
-              : "uso: open [github|linkedin|email|<proyecto>]",
+              ? "usage: open [github|linkedin|spotify|email|<project>]"
+              : "uso: open [github|linkedin|spotify|email|<proyecto>]",
           };
         }
         if (["github", "gh"].includes(raw)) {
@@ -149,6 +150,13 @@ export function getCommands(locale: Locale = "es"): Command[] {
         }
         if (["linkedin", "in"].includes(raw)) {
           return { kind: "open", url: LINKEDIN, label: "LinkedIn" };
+        }
+        if (["spotify", "sp"].includes(raw)) {
+          return {
+            kind: "open",
+            url: SPOTIFY_PROFILE,
+            label: "Spotify (@DonJuanCelektor)",
+          };
         }
         if (["email", "mail", "correo"].includes(raw)) {
           return {
@@ -297,6 +305,28 @@ export function getCommands(locale: Locale = "es"): Command[] {
       aliases: ["contacto", "email", "mail"],
       summary: isEn ? "how to reach me" : "cómo encontrarme y escribirme",
       run: () => ({ kind: "contact" }),
+    },
+    {
+      name: "spotify",
+      aliases: ["music", "musica", "curaduria", "playlist", "playlists"],
+      summary: isEn
+        ? "DonJuanCelektor curated music player: spotify [playlist]"
+        : "curaduría y reproductor de DonJuanCelektor: spotify [playlist]",
+      run: ([arg]) => {
+        if (!arg || arg === "list" || arg === "all") {
+          return { kind: "spotify" };
+        }
+        const matched = findPlaylist(arg);
+        if (matched) {
+          return { kind: "spotify", playlistId: matched.id };
+        }
+        return {
+          kind: "error",
+          message: isEn
+            ? `spotify: '${arg}' not found. Type 'spotify' to browse all, or try: ${PLAYLISTS.map((p) => p.slug).join(", ")}`
+            : `spotify: '${arg}' no encontrada. Escribe 'spotify' para ver todas, o prueba: ${PLAYLISTS.map((p) => p.slug).join(", ")}`,
+        };
+      },
     },
     {
       name: "skills",
@@ -637,54 +667,72 @@ export function getCommands(locale: Locale = "es"): Command[] {
     },
     {
       name: "mcc",
-      aliases: ["musica", "radio", "podcast"],
+      aliases: ["radio", "podcast"],
       summary: isEn
         ? "música con criterio: music podcast & blog"
         : "música con criterio: blog y podcast",
-      run: () => ({
-        kind: "text",
-        lines: isEn
-          ? [
-              "┌────────────────────────────────────────────────────────┐",
-              "│  📻 MÚSICA CON CRITERIO · Podcast & Editorial Blog     │",
-              "│  ► [■■■■■■■■■■■■■■■□□□□] 03:24 / 04:48                 │",
-              "│  Track: Soulful Selection · Jazz / Funk / Hard Salsa   │",
-              "│  Voice: DonJuanCelektor in «I Play, Therefore I Am»    │",
-              "└────────────────────────────────────────────────────────┘",
-              "\"Music with taste doesn't compete with streaming algorithms:",
-              " it champions context, vinyl, and the human story behind sound.\"",
-            ]
-          : [
-              "┌────────────────────────────────────────────────────────┐",
-              "│  📻 MÚSICA CON CRITERIO · Podcast & Blog Editorial     │",
-              "│  ► [■■■■■■■■■■■■■■■□□□□] 03:24 / 04:48                 │",
-              "│  Track: Selección con alma · Jazz / Funk / Salsa Dura  │",
-              "│  Voz: DonJuanCelektor en «Música, luego existo»        │",
-              "└────────────────────────────────────────────────────────┘",
-              "«La música con criterio no compite con algoritmos de streaming:",
-              " rescata el contexto, el vinilo y la historia detrás del sonido.»",
-            ],
-      }),
+      run: (args) => {
+        if (args && args[0] && ["play", "spotify", "music", "musica"].includes(args[0].toLowerCase())) {
+          return { kind: "spotify" };
+        }
+        return {
+          kind: "text",
+          lines: isEn
+            ? [
+                "┌────────────────────────────────────────────────────────┐",
+                "│  📻 MÚSICA CON CRITERIO · Podcast & Editorial Blog     │",
+                "│  ► [■■■■■■■■■■■■■■■□□□□] 03:24 / 04:48                 │",
+                "│  Track: Soulful Selection · Jazz / Funk / Hard Salsa   │",
+                "│  Voice: DonJuanCelektor in «I Play, Therefore I Am»    │",
+                "└────────────────────────────────────────────────────────┘",
+                "\"Music with taste doesn't compete with streaming algorithms:",
+                " it champions context, vinyl, and the human story behind sound.\"",
+                "",
+                "# Tip: type 'spotify' to load DonJuanCelektor's curated playlists.",
+              ]
+            : [
+                "┌────────────────────────────────────────────────────────┐",
+                "│  📻 MÚSICA CON CRITERIO · Podcast & Blog Editorial     │",
+                "│  ► [■■■■■■■■■■■■■■■□□□□] 03:24 / 04:48                 │",
+                "│  Track: Selección con alma · Jazz / Funk / Salsa Dura  │",
+                "│  Voz: DonJuanCelektor en «Música, luego existo»        │",
+                "└────────────────────────────────────────────────────────┘",
+                "«La música con criterio no compite con algoritmos de streaming:",
+                " rescata el contexto, el vinilo y la historia detrás del sonido.»",
+                "",
+                "# Tip: escribe 'spotify' para abrir el reproductor curado de DonJuanCelektor.",
+              ],
+        };
+      },
     },
     {
       name: "djc",
       aliases: ["donjuancelektor", "selector"],
       summary: "",
       hidden: true,
-      run: () => ({
-        kind: "text",
-        lines: isEn
-          ? [
-              "🎧 DonJuanCelektor: the sonic alter ego behind Música con Criterio.",
-              "Mission: Handcrafted audio curation, zero algorithmic shuffle.",
-              "Status: In the booth (vinyl and live sessions only).",
-            ]
-          : [
-              "🎧 DonJuanCelektor: el alter ego musical detrás de Música con Criterio.",
-              "Misión: Curaduría sonora artesanal, cero shuffle automático.",
-              "Estado: En cabina (solo eventos en vivo y tornamesas).",
-            ],
-      }),
+      run: (args) => {
+        if (args && args[0] && ["play", "spotify", "music", "musica"].includes(args[0].toLowerCase())) {
+          return { kind: "spotify" };
+        }
+        return {
+          kind: "text",
+          lines: isEn
+            ? [
+                "🎧 DonJuanCelektor: the sonic alter ego behind Música con Criterio.",
+                "Mission: Handcrafted audio curation, zero algorithmic shuffle.",
+                "Status: In the booth (vinyl and live sessions only).",
+                "",
+                "# Tip: type 'spotify' to load my curated playlists with previews.",
+              ]
+            : [
+                "🎧 DonJuanCelektor: el alter ego musical detrás de Música con Criterio.",
+                "Misión: Curaduría sonora artesanal, cero shuffle automático.",
+                "Estado: En cabina (solo eventos en vivo y tornamesas).",
+                "",
+                "# Tip: escribe 'spotify' para cargar mis playlists curadas con previews.",
+              ],
+        };
+      },
     },
     {
       name: "face",
@@ -759,11 +807,24 @@ export function complete(input: string, locale: Locale = "es"): string {
     return matches.length === 1 ? `${first} ${matches[0]}` : input;
   }
 
+  // spotify/music/curaduria: completar slug de playlist
+  if (
+    ["spotify", "music", "musica", "curaduria", "playlist", "playlists"].includes(
+      first.toLowerCase(),
+    ) &&
+    rest.length === 0
+  ) {
+    const targets = PLAYLISTS.map((p) => p.slug);
+    const matches = targets.filter((s) => s.startsWith(second.toLowerCase()));
+    return matches.length === 1 ? `${first} ${matches[0]}` : input;
+  }
+
   // open: completar targets
   if (first.toLowerCase() === "open" && rest.length === 0) {
     const targets = [
       "github",
       "linkedin",
+      "spotify",
       "email",
       ...projectList.map((p) => p.slug),
     ];

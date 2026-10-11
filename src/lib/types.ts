@@ -57,7 +57,8 @@ export type Output =
   | { kind: "open"; url: string; label: string }
   | { kind: "contact" }
   | { kind: "error"; message: string }
-  | { kind: "ascii" };
+  | { kind: "ascii" }
+  | { kind: "spotify"; playlistId?: string };
 
 export interface Command {
   name: string;
