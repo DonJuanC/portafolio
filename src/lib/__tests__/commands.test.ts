@@ -116,6 +116,10 @@ describe("commands: execute", () => {
     expect(execute(":q!").kind).toBe("text");
     expect(execute("npm i").kind).toBe("text");
     expect(execute("exit").kind).toBe("text");
+    expect(execute("cafe").kind).toBe("text");
+    expect(execute("hire").kind).toBe("text");
+    expect(execute("cali").kind).toBe("text");
+    expect(execute("matrix").kind).toBe("text");
   });
 
   it("returns playful error on unknown command", () => {

@@ -299,6 +299,66 @@ export const commands: Command[] = [
     }),
   },
   {
+    name: "cafe",
+    aliases: ["coffee", "tinto"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "☕ [HTTP 418: I'm a teapot]",
+        "Servidor operando con café 100% colombiano de origen (Cali, Colombia).",
+        "Nivel de cafeína: 98% · Listo para desplegar en producción.",
+      ],
+    }),
+  },
+  {
+    name: "hire",
+    aliases: ["contratar", "trabajo", "empleo", "chamba"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "✨ [DECISIÓN INTELIGENTE DETECTADA]",
+        "Candidato: JCamilo Castellanos · Full Stack Developer con mirada de procesos.",
+        "Stack: React, TypeScript, Node.js, PostgreSQL, Gemini, arquitecturas resilientes.",
+        "Siguiente paso: escribe 'contact' o haz clic en 'Copiar email' en la cabecera.",
+      ],
+    }),
+  },
+  {
+    name: "cali",
+    aliases: ["valle", "sucursal"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "🌴 jcamilo@dev:~/cali$ (it's Cali, not California)",
+        "Cali, Colombia · La Sucursal del Cielo.",
+        "Temperatura: ~28°C · Salsa de golpe en el ambiente · Código limpio en la terminal.",
+      ],
+    }),
+  },
+  {
+    name: "matrix",
+    aliases: ["neo", "redpill"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "Wake up, Neo...",
+        "The Matrix has you.",
+        "Follow the white rabbit.",
+        "Knock, knock.",
+        "",
+        "(Píldora roja tomada. Bienvenido al backend).",
+      ],
+    }),
+  },
+  {
     name: "wix",
     aliases: ["wordpress", "squarespace"],
     summary: "",
