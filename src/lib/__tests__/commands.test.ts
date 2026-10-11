@@ -120,6 +120,8 @@ describe("commands: execute", () => {
     expect(execute("hire").kind).toBe("text");
     expect(execute("cali").kind).toBe("text");
     expect(execute("matrix").kind).toBe("text");
+    expect(execute("mcc").kind).toBe("text");
+    expect(execute("djc").kind).toBe("text");
   });
 
   it("returns playful error on unknown command", () => {
