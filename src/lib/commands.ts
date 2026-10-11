@@ -229,6 +229,71 @@ export const commands: Command[] = [
     }),
   },
   {
+    name: "rm",
+    aliases: ["delete", "del", "remove"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "Permiso denegado: ¡Ey, mis proyectos viven aquí!",
+        "Si de verdad quieres romper cosas, intenta con 'sudo'.",
+      ],
+    }),
+  },
+  {
+    name: "git",
+    aliases: ["commit", "push"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "fatal: No se hace git push a producción los viernes.",
+        "Mejor prueba con 'face' o tómate un 'cafe'.",
+      ],
+    }),
+  },
+  {
+    name: "vim",
+    aliases: ["vi", ":q", ":wq", ":q!", "nano"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "Tranquilo, no estás atrapado en Vim. Respira hondo.",
+        "Para limpiar o salir escribe 'clear' o cierra la terminal.",
+      ],
+    }),
+  },
+  {
+    name: "npm",
+    aliases: ["pnpm", "yarn", "bun"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "Instalando 4.280 dependencias y 3 vulnerabilidades críticas...",
+        "Broma. Escribe 'skills' para ver las tecnologías que uso de verdad.",
+      ],
+    }),
+  },
+  {
+    name: "exit",
+    aliases: ["quit", "bye", "adios"],
+    summary: "",
+    hidden: true,
+    run: () => ({
+      kind: "text",
+      lines: [
+        "¿Ya te vas? Cierra la pestaña cuando quieras...",
+        "Pero no te vayas sin escribir 'face' antes.",
+      ],
+    }),
+  },
+  {
     name: "wix",
     aliases: ["wordpress", "squarespace"],
     summary: "",
@@ -353,7 +418,7 @@ export function execute(input: string): Output {
   if (!command) {
     return {
       kind: "error",
-      message: `${name}: comando no encontrado. Escribe help.`,
+      message: `${name}: comando no encontrado. Escribe 'help' (o curiosea con 'face', 'sudo' y 'cafe').`,
     };
   }
   return command.run(args);

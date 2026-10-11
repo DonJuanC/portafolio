@@ -110,11 +110,20 @@ describe("commands: execute", () => {
     expect(execute("theme oscuro")).toEqual({ kind: "theme", mode: "dark" });
   });
 
-  it("returns error on unknown command", () => {
+  it("handles dev reflex easter eggs with humor", () => {
+    expect(execute("rm -rf").kind).toBe("text");
+    expect(execute("git push").kind).toBe("text");
+    expect(execute(":q!").kind).toBe("text");
+    expect(execute("npm i").kind).toBe("text");
+    expect(execute("exit").kind).toBe("text");
+  });
+
+  it("returns playful error on unknown command", () => {
     const res = execute("inventado");
     expect(res.kind).toBe("error");
     if (res.kind === "error") {
       expect(res.message).toContain("comando no encontrado");
+      expect(res.message).toContain("face");
     }
   });
 });
