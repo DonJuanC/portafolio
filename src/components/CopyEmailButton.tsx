@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { getContactEmail, EMAIL_DISPLAY_OBFUSCATED } from "@/lib/links";
+import { useLanguage } from "@/context/LanguageContext";
 import styles from "./CopyEmailButton.module.css";
 
 interface CopyEmailButtonProps {
@@ -9,6 +10,7 @@ interface CopyEmailButtonProps {
 }
 
 export default function CopyEmailButton({ className }: CopyEmailButtonProps) {
+  const { locale, t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -23,15 +25,25 @@ export default function CopyEmailButton({ className }: CopyEmailButtonProps) {
     }
   }
 
+  const isEn = locale === "en";
+
   return (
     <button
       type="button"
       className={`${styles.btn} ${className ?? ""} ${copied ? styles.copied : ""}`}
       onClick={handleCopy}
-      title={`Copiar ${EMAIL_DISPLAY_OBFUSCATED} al portapapeles`}
-      aria-label="Copiar correo de contacto al portapapeles"
+      title={
+        isEn
+          ? `Copy ${EMAIL_DISPLAY_OBFUSCATED} to clipboard`
+          : `Copiar ${EMAIL_DISPLAY_OBFUSCATED} al portapapeles`
+      }
+      aria-label={
+        isEn
+          ? "Copy contact email to clipboard"
+          : "Copiar correo de contacto al portapapeles"
+      }
     >
-      {copied ? "✓ Correo copiado" : "Hablemos por correo"}
+      {copied ? t.hero.actions.copiedEmail : t.hero.actions.talkByEmail}
     </button>
   );
 }

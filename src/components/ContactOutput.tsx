@@ -1,10 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { GITHUB, LINKEDIN, getContactEmail, getMailtoUrl, EMAIL_DISPLAY_OBFUSCATED } from "@/lib/links";
+import {
+  GITHUB,
+  LINKEDIN,
+  getContactEmail,
+  getMailtoUrl,
+  EMAIL_DISPLAY_OBFUSCATED,
+} from "@/lib/links";
+import { useLanguage } from "@/context/LanguageContext";
 import styles from "./Terminal.module.css";
 
 export default function ContactOutput() {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -38,16 +46,16 @@ export default function ContactOutput() {
           type="button"
           onClick={handleCopy}
           className={styles.miniBtn}
-          title="Copiar correo real al portapapeles"
+          title={t.contact.copyTitle}
         >
-          {copied ? "✓ copiado" : "[copiar]"}
+          {copied ? t.contact.copiedBtn : t.contact.copyBtn}
         </button>
         <a
           href={getMailtoUrl()}
           className={styles.miniLink}
-          title="Abrir tu cliente de correo"
+          title={t.contact.mailtoTitle}
         >
-          [abrir mailto ↗]
+          {t.contact.mailtoBtn}
         </a>
       </p>
     </div>

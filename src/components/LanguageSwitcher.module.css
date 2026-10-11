@@ -1,0 +1,54 @@
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.35rem;
+  line-height: 1;
+}
+
+.label {
+  color: var(--dim);
+  margin-right: 0.2rem;
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+.btn {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+  border-radius: 3px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:hover {
+  color: var(--fg);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.active {
+  color: var(--accent);
+  font-weight: 700;
+  background-color: var(--bg);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.divider {
+  color: var(--dim);
+  opacity: 0.4;
+  user-select: none;
+}

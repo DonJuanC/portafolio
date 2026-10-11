@@ -1,8 +1,12 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
 import styles from "./TerminalPromptHint.module.css";
 
 export default function TerminalPromptHint() {
+  const { t } = useLanguage();
+  const hint = t.hero.terminalPromptHint;
+
   function openTerminal() {
     const details = document.getElementById("terminal") as HTMLDetailsElement | null;
     if (details) {
@@ -14,15 +18,15 @@ export default function TerminalPromptHint() {
 
   return (
     <p className={styles.hint}>
-      ¿Prefieres tema claro o explorar? Abre la{" "}
+      {hint.question}{" "}
       <button
         type="button"
         onClick={openTerminal}
         className={styles.linkBtn}
       >
-        terminal
+        {hint.terminalWord}
       </button>{" "}
-      y escribe <code className={styles.code}>theme</code>.
+      {hint.typeWord} <code className={styles.code}>{hint.command}</code>.
     </p>
   );
 }

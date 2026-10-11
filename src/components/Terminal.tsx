@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { complete, execute } from "@/lib/commands";
+import { useLanguage } from "@/context/LanguageContext";
 import OutputView from "./OutputView";
 import styles from "./Terminal.module.css";
 import type { HistoryEntry, ThemeMode } from "@/lib/types";
 
 const PROMPT = "jcamilo@dev:~/cali$";
-const SUGGESTED = ["help", "ls", "cd axora", "theme", "contact"];
 
 function applyTheme(mode: ThemeMode): "dark" | "light" {
   const root = document.documentElement;
@@ -27,11 +27,17 @@ function applyTheme(mode: ThemeMode): "dark" | "light" {
 
 export default function Terminal() {
   const router = useRouter();
+  const { locale, setLocale, t } = useLanguage();
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [input, setInput] = useState("");
   const [recall, setRecall] = useState(-1);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const suggestedCommands =
+    locale === "en"
+      ? ["help", "ls", "cd axora", "theme", "lang es"]
+      : ["help", "ls", "cd axora", "theme", "lang en"];
 
   useEffect(() => {
     if (history.length === 0) return;
@@ -53,12 +59,23 @@ export default function Terminal() {
     if (text === "clear") {
       setHistory([]);
     } else {
-      let output = execute(text);
-      if (output.kind === "theme") {
+      let output = execute(text, locale);
+      if (output.kind === "lang") {
+        setLocale(output.locale);
+      } else if (output.kind === "theme") {
         const next = applyTheme(output.mode);
+        const isEn = locale === "en";
+        const modeLabel =
+          next === "dark"
+            ? isEn
+              ? "dark"
+              : "oscuro"
+            : isEn
+              ? "light"
+              : "claro";
         output = {
           kind: "text",
-          lines: [`tema: ${next === "dark" ? "oscuro" : "claro"}`],
+          lines: [`${isEn ? "theme" : "tema"}: ${modeLabel}`],
         };
       } else if (output.kind === "navigate") {
         router.push(output.path);
@@ -111,14 +128,19 @@ export default function Terminal() {
 
     if (e.key === "Tab") {
       e.preventDefault();
-      setInput((v) => complete(v));
+      setInput((v) => complete(v, locale));
       return;
     }
   }
 
   return (
-    <section className={styles.terminal} aria-label="Terminal interactiva">
-      <p className={styles.hint}># escribe help para ver los comandos</p>
+    <section
+      className={styles.terminal}
+      aria-label={
+        locale === "en" ? "Interactive terminal" : "Terminal interactiva"
+      }
+    >
+      <p className={styles.hint}>{t.terminal.hint}</p>
 
       <div aria-live="polite">
         {history.map((entry) => (
@@ -135,9 +157,9 @@ export default function Terminal() {
       <div
         className={styles.chips}
         role="group"
-        aria-label="Comandos sugeridos"
+        aria-label={t.terminal.suggestedLabel}
       >
-        {SUGGESTED.map((cmd) => (
+        {suggestedCommands.map((cmd) => (
           <button
             key={cmd}
             type="button"
@@ -154,13 +176,13 @@ export default function Terminal() {
           {PROMPT}
         </label>
         <span id="comando-label" className={styles.srOnly}>
-          Línea de comandos de la terminal
+          {t.terminal.srOnlyLabel}
         </span>
         <input
           ref={inputRef}
           id="comando"
           aria-labelledby="comando-label"
-          aria-label="Línea de comandos de la terminal"
+          aria-label={t.terminal.srOnlyLabel}
           className={styles.input}
           value={input}
           onChange={(e) => {
@@ -169,7 +191,7 @@ export default function Terminal() {
           }}
           onKeyDown={handleKeyDown}
           autoComplete="off"
-          placeholder="escribe un comando (ej. 'help', 'theme')... "
+          placeholder={t.terminal.inputPlaceholder}
           autoCapitalize="off"
           spellCheck={false}
         />

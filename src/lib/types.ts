@@ -1,3 +1,5 @@
+import type { Locale } from "@/content/i18n";
+
 export type ProjectStatus = "deployed" | "in-progress" | "building";
 export type FlowKind = "input" | "process" | "decision" | "output";
 
@@ -46,6 +48,7 @@ export type ThemeMode = "dark" | "light" | "toggle";
 export type Output =
   | { kind: "text"; lines: string[] }
   | { kind: "theme"; mode: ThemeMode }
+  | { kind: "lang"; locale: Locale; message: string }
   | { kind: "projects" }
   | { kind: "project"; slug: string }
   | { kind: "flow"; slug: string }
@@ -61,7 +64,7 @@ export interface Command {
   aliases?: string[];
   summary: string;
   hidden?: boolean;
-  run: (args: string[]) => Output;
+  run: (args: string[], locale?: Locale) => Output;
 }
 
 export interface HistoryEntry {

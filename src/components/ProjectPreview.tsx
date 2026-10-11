@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import type { Project } from "@/lib/types";
+import { useLanguage } from "@/context/LanguageContext";
 import styles from "./ProjectPreview.module.css";
 
 interface ProjectPreviewProps {
@@ -7,6 +10,9 @@ interface ProjectPreviewProps {
 }
 
 export default function ProjectPreview({ project }: ProjectPreviewProps) {
+  const { locale, t } = useLanguage();
+  const isEn = locale === "en";
+
   const demoLink =
     project.links.find((l) => l.label.toLowerCase() === "demo") ??
     project.links[0];
@@ -18,7 +24,11 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
   return (
     <section
       className={styles.container}
-      aria-label={`Vista previa de ${project.name}`}
+      aria-label={
+        isEn
+          ? `Interactive preview for ${project.name}`
+          : `Vista previa de ${project.name}`
+      }
     >
       <div className={styles.window}>
         <div className={styles.titlebar}>
@@ -35,7 +45,7 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.urlLink}
-                title={`Visitar ${demoLink.url}`}
+                title={isEn ? `Visit ${demoLink.url}` : `Visitar ${demoLink.url}`}
               >
                 <span className={styles.protocol}>https://</span>
                 <span className={styles.domain}>{rawDomain}</span>
@@ -58,7 +68,7 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
                 rel="noopener noreferrer"
                 className={styles.actionBtn}
               >
-                abrir demo ↗
+                {t.detail.openDemo}
               </a>
             )}
           </div>
@@ -87,7 +97,7 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
                     rel="noopener noreferrer"
                     className={styles.blueprintCta}
                   >
-                    Ver aplicación en vivo ↗
+                    {isEn ? "View live app ↗" : "Ver aplicación en vivo ↗"}
                   </a>
                 )}
               </div>
@@ -97,9 +107,11 @@ export default function ProjectPreview({ project }: ProjectPreviewProps) {
       </div>
 
       <p className={styles.caption}>
-        # interfaz de usuario ·{" "}
+        # {t.detail.uiCaption} ·{" "}
         {project.image?.caption ??
-          (demoLink ? `desplegado en ${rawDomain}` : project.name)}
+          (demoLink
+            ? `${isEn ? "deployed at" : "desplegado en"} ${rawDomain}`
+            : project.name)}
       </p>
     </section>
   );

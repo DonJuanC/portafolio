@@ -1,25 +1,22 @@
-import styles from "./FlowView.module.css";
-import type { FlowGraph, FlowKind } from "@/lib/types";
+"use client";
 
-const kindLabel: Record<FlowKind, string> = {
-  input: "entrada",
-  process: "proceso",
-  decision: "decisión",
-  output: "salida",
-};
+import { useLanguage } from "@/context/LanguageContext";
+import styles from "./FlowView.module.css";
+import type { FlowGraph } from "@/lib/types";
 
 export default function FlowView({ flow }: { flow: FlowGraph }) {
+  const { t } = useLanguage();
   const labelOf = (id: string) =>
     flow.steps.find((s) => s.id === id)?.label ?? id;
 
   return (
-    <ol className={styles.flow} aria-label="Flujo del proceso">
+    <ol className={styles.flow} aria-label={t.detail.flowLabel}>
       {flow.steps.map((s) => (
         <li
           key={s.id}
           className={`${styles.step} ${s.kind === "decision" ? styles.decision : ""}`}
         >
-          <span className={styles.kind}>{kindLabel[s.kind]}</span>
+          <span className={styles.kind}>{t.detail.kindLabels[s.kind]}</span>
           <p className={styles.label}>{s.label}</p>
           {s.detail && <p className={styles.detail}>{s.detail}</p>}
 

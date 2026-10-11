@@ -11,6 +11,7 @@ describe("commands: execute", () => {
       expect(res.lines.some((l) => l.startsWith("cd"))).toBe(true);
       expect(res.lines.some((l) => l.startsWith("open"))).toBe(true);
       expect(res.lines.some((l) => l.startsWith("theme"))).toBe(true);
+      expect(res.lines.some((l) => l.startsWith("lang"))).toBe(true);
     }
   });
 
@@ -110,6 +111,34 @@ describe("commands: execute", () => {
     expect(execute("theme oscuro")).toEqual({ kind: "theme", mode: "dark" });
   });
 
+  it("lang toggles or switches language", () => {
+    expect(execute("lang", "es")).toEqual({
+      kind: "lang",
+      locale: "en",
+      message: "language switched to english (easter eggs and jokes localized)",
+    });
+
+    expect(execute("lang", "en")).toEqual({
+      kind: "lang",
+      locale: "es",
+      message: "idioma: español (easter eggs y bromas localizados)",
+    });
+
+    expect(execute("lang en")).toEqual({
+      kind: "lang",
+      locale: "en",
+      message: "language switched to english (easter eggs and jokes localized)",
+    });
+
+    expect(execute("idioma es")).toEqual({
+      kind: "lang",
+      locale: "es",
+      message: "idioma: español (easter eggs y bromas localizados)",
+    });
+
+    expect(execute("lang invalid").kind).toBe("error");
+  });
+
   it("handles dev reflex easter eggs with humor", () => {
     expect(execute("rm -rf").kind).toBe("text");
     expect(execute("git push").kind).toBe("text");
@@ -132,6 +161,49 @@ describe("commands: execute", () => {
       expect(res.message).toContain("face");
     }
   });
+
+  it("supports English locale for commands and humor", () => {
+    const helpRes = execute("help", "en");
+    expect(helpRes.kind).toBe("text");
+    if (helpRes.kind === "text") {
+      expect(helpRes.lines.some((l) => l.includes("list available commands"))).toBe(true);
+      expect(helpRes.lines.some((l) => l.includes("system secrets"))).toBe(true);
+    }
+
+    const whoamiRes = execute("whoami", "en");
+    if (whoamiRes.kind === "text") {
+      expect(whoamiRes.lines[1]).toContain("zero VC drama");
+    }
+
+    const cdHome = execute("cd ~", "en");
+    expect(cdHome).toEqual({
+      kind: "navigate",
+      path: "/",
+      message: "switching to home directory (~)",
+    });
+
+    const sudoRes = execute("sudo", "en");
+    if (sudoRes.kind === "text") {
+      expect(sudoRes.lines[1]).toContain("Santa Claus");
+    }
+
+    const gitRes = execute("git", "en");
+    if (gitRes.kind === "text") {
+      expect(gitRes.lines[0]).toContain("Friday");
+    }
+
+    const cafeRes = execute("cafe", "en");
+    if (cafeRes.kind === "text") {
+      expect(cafeRes.lines[1]).toContain("Colombian coffee");
+    }
+
+    const unknownRes = execute("xyz-unknown", "en");
+    expect(unknownRes.kind).toBe("error");
+    if (unknownRes.kind === "error") {
+      expect(unknownRes.message).toContain("command not found");
+      expect(unknownRes.message).toContain("coffee");
+    }
+  });
 });
 
 describe("commands: complete", () => {
@@ -151,6 +223,11 @@ describe("commands: complete", () => {
     expect(complete("open git")).toBe("open github");
     expect(complete("open link")).toBe("open linkedin");
     expect(complete("open ax")).toBe("open axora");
+  });
+
+  it("autocompletes lang options", () => {
+    expect(complete("lang en")).toBe("lang en");
+    expect(complete("lang es")).toBe("lang es");
   });
 });
 

@@ -1,6 +1,7 @@
+import type { Locale } from "./i18n";
 import type { Project } from "@/lib/types";
 
-export const projects: Project[] = [
+export const projectsEs: Project[] = [
   {
     slug: "axora",
     name: "AXORA",
@@ -507,3 +508,521 @@ export const projects: Project[] = [
     },
   },
 ];
+
+export const projectsEn: Project[] = [
+  {
+    slug: "axora",
+    name: "AXORA",
+    featured: true,
+    tag: "most robust",
+    status: "deployed",
+    tagline:
+      "Multi-currency digital wallet for travelers and digital nomads, powered by an AI assistant.",
+    summary:
+      "Enables balances in six currencies (USD, EUR, ARS, COP, MXN, and BRL), wallet funding, peer-to-peer transfers, real-time FX exchange, and rate history. A Gemini-powered assistant proposes operations and requires explicit user confirmation before executing.",
+    role: "Full stack developer, focused on backend, code reviews, and technical coordination.",
+    team: "3 full stack",
+    stack: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Node.js",
+      "Express",
+      "PostgreSQL (Neon)",
+      "JWT + bcrypt",
+      "Swagger/OpenAPI",
+      "Google Gemini",
+      "AWS SES",
+      "Vitest",
+      "Vercel",
+      "Render",
+    ],
+    links: [
+      {
+        label: "frontend",
+        url: "https://github.com/axoratechgroup/axora-frontend",
+      },
+      {
+        label: "backend",
+        url: "https://github.com/axoratechgroup/axora-backend",
+      },
+      {
+        label: "demo",
+        url: "https://axora-frontend-five.vercel.app/",
+      },
+    ],
+
+    image: {
+      src: "/projects/axora.svg",
+      alt: "AXORA multi-currency digital wallet interface with conversational AI assistant",
+      caption: "Multi-currency wallet with conversational assistant on Gemini",
+    },
+
+    flow: {
+      steps: [
+        {
+          id: "pedido",
+          kind: "input",
+          label: "User requests currency exchange",
+          detail: "Amount and currency pair, authenticated session (JWT)",
+        },
+        {
+          id: "bloqueo",
+          kind: "process",
+          label: "Opens transaction and locks both balances",
+          detail: "Ordered row-level locking to prevent race conditions",
+        },
+        {
+          id: "saldo",
+          kind: "decision",
+          label: "Sufficient balance?",
+          then: [
+            { to: "cache", when: "yes" },
+            { to: "rechazo", when: "no" },
+          ],
+        },
+        {
+          id: "cache",
+          kind: "decision",
+          label: "Valid rate in cache?",
+          detail: "Stored in PostgreSQL, TTL 60 minutes",
+          then: [
+            { to: "comision", when: "yes" },
+            { to: "api", when: "no" },
+          ],
+        },
+        {
+          id: "api",
+          kind: "decision",
+          label: "Does FX rate API respond?",
+          detail: "5-second timeout limit",
+          then: [
+            { to: "comision", when: "yes, stores rate" },
+            { to: "respaldo", when: "no" },
+          ],
+        },
+        {
+          id: "respaldo",
+          kind: "process",
+          label: "Use last known rate",
+          detail: "If none exists, falls back to a static contingency table",
+        },
+        {
+          id: "comision",
+          kind: "process",
+          label: "Applies exchange rate and deducts fee",
+          detail: "0.3% fee on converted amount",
+        },
+        {
+          id: "registro",
+          kind: "output",
+          label: "Confirms exchange and logs transaction",
+          detail: "Balances before and after, applied rate and fee; notification queued asynchronously",
+        },
+        {
+          id: "rechazo",
+          kind: "output",
+          label: "Rejects exchange and rolls back",
+        },
+      ],
+      highlight: {
+        stepId: "respaldo",
+        note: "If the FX rate provider goes down, the exchange doesn't fail: three levels of fallback ensure resilience.",
+      },
+    },
+  },
+  {
+    slug: "reciclave",
+    name: "Reciclá, ve",
+    featured: true,
+    tag: "latest",
+    status: "deployed",
+    tagline:
+      "AI + Database determining how to sort waste according to Colombian environmental regulations.",
+    summary:
+      "'Reciclá, ve' tells you which bin your waste belongs to, following Colombia's color-coded recycling standards. The biggest challenge was knowing when NOT to use AI: it first queries a curated database of 50 waste items hand-mapped to the law, only falling back to LLM inference when needed. Similarity thresholds were calibrated across 19 test queries, flagging borderline matches as 'unverified'.",
+    role: "Solo project",
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS 4",
+      "PostgreSQL + pgvector (Neon)",
+      "Gemini API",
+      "Zod",
+      "Vercel",
+    ],
+    links: [
+      {
+        label: "demo",
+        url: "https://reciclave.vercel.app",
+      },
+      {
+        label: "repository",
+        url: "https://github.com/DonJuanC/reciclave",
+      },
+    ],
+
+    image: {
+      src: "/projects/reciclave.svg",
+      alt: "Reciclá, ve interface with regulatory waste classification",
+      caption: "Semantic search over curated waste database and color-coded bins",
+    },
+
+    flow: {
+      steps: [
+        {
+          id: "entrada",
+          kind: "input",
+          label: "User enters item to dispose of",
+        },
+        {
+          id: "embedding",
+          kind: "process",
+          label: "Text is converted into an embedding",
+          detail: "Using Gemini",
+        },
+        {
+          id: "busqueda",
+          kind: "process",
+          label: "Cosine similarity search over curated database",
+          detail: "pgvector over 50 hand-classified items against regulations",
+        },
+        {
+          id: "directa",
+          kind: "decision",
+          label: "Similarity >= 0.77 without ambiguity?",
+          detail: "Runner-up is >= 0.05 away, or belongs to the same bin",
+          then: [
+            { to: "base", when: "yes" },
+            { to: "dudosa", when: "no" },
+          ],
+        },
+        {
+          id: "dudosa",
+          kind: "decision",
+          label: "Similarity >= 0.70?",
+          then: [
+            { to: "candidatos", when: "yes" },
+            { to: "norma", when: "no" },
+          ],
+        },
+        {
+          id: "base",
+          kind: "output",
+          label: "Answers from curated database",
+          detail: "Includes regulatory citation",
+        },
+        {
+          id: "candidatos",
+          kind: "process",
+          label: "Gemini decides using database candidates",
+          detail: "Strict JSON schema response",
+        },
+        {
+          id: "norma",
+          kind: "process",
+          label: "Gemini classifies strictly against regulatory rules",
+          detail: "Strict JSON schema response",
+        },
+        {
+          id: "aviso",
+          kind: "output",
+          label: "Returns answer with 'unverified' badge",
+        },
+      ],
+      highlight: {
+        stepId: "directa",
+        note: "Similarity score alone is not enough: an absent item can score almost as high as a weak hit. The telltale sign is the tiny margin between first and second place.",
+      },
+    },
+  },
+  {
+    slug: "lotr-chat",
+    name: "Middle-earth Chat",
+    featured: true,
+    tag: "passion project",
+    status: "deployed",
+    tagline:
+      "Chat with seven Middle-earth characters, each with their own distinct persona.",
+    summary:
+      "SPA to talk with Gandalf, Gollum, Aragorn, Bilbo, Legolas, Gimli, and Saruman powered by Google Gemini. Each character has a tailored system prompt, lore background, and conversation starter hooks. Custom History API routing, conversations stored client-side in the browser, and the Gemini API key stays safe behind a serverless proxy function.",
+    role: "Solo project",
+    stack: [
+      "JavaScript (vanilla)",
+      "Pure CSS",
+      "History API",
+      "Google Gemini (@google/genai)",
+      "Vercel Functions as proxy",
+      "Vitest",
+      "Vercel",
+    ],
+    links: [
+      { label: "demo", url: "https://lotr-chat.vercel.app" },
+      { label: "repository", url: "https://github.com/DonJuanC/lotr-chat" },
+    ],
+
+    image: {
+      src: "/projects/lotr-chat.svg",
+      alt: "Middle-earth Chat interface with characters and Gemini proxy",
+      caption: "SPA with History API routing and serverless proxy for API key security",
+    },
+
+    flow: {
+      steps: [
+        {
+          id: "mensaje",
+          kind: "input",
+          label: "User sends a message to a character",
+          detail: "Gandalf, Gollum, Aragorn, Bilbo, Legolas, Gimli, or Saruman",
+        },
+        {
+          id: "peticion",
+          kind: "process",
+          label: "Browser sends conversation to serverless function",
+          detail: "Gemini API key never leaves the server",
+        },
+        {
+          id: "valida",
+          kind: "decision",
+          label: "Is request valid?",
+          detail: "POST method, valid character, message present",
+          then: [
+            { to: "gemini", when: "yes" },
+            { to: "rechazo", when: "no" },
+          ],
+        },
+        {
+          id: "gemini",
+          kind: "process",
+          label: "Gemini responds in character",
+          detail: "Dedicated system prompt, chat history, 500 max tokens",
+        },
+        {
+          id: "respondio",
+          kind: "decision",
+          label: "Did Gemini respond successfully?",
+          then: [
+            { to: "guardar", when: "yes" },
+            { to: "fallo", when: "no" },
+          ],
+        },
+        {
+          id: "guardar",
+          kind: "output",
+          label: "Renders response and saves chat history locally",
+          detail: "One persistent thread per character",
+        },
+        {
+          id: "fallo",
+          kind: "output",
+          label: "Displays error with HTTP status code",
+          detail: "Clear guidance for 429 rate limit exceeded",
+        },
+        {
+          id: "rechazo",
+          kind: "output",
+          label: "Rejects request with HTTP 400",
+        },
+      ],
+      highlight: {
+        stepId: "peticion",
+        note: "The browser never communicates directly with Gemini: the secret key lives strictly on the server.",
+      },
+    },
+  },
+  {
+    slug: "geekeame-store",
+    name: "Geekeame",
+    featured: true,
+    tag: "e-commerce model",
+    status: "deployed",
+    tagline:
+      "Geek merch store featuring full catalog, cart, checkout, and admin dashboard.",
+    summary:
+      "Full stack e-commerce built for a niche shop: pins, stickers, posters, keychains, and mugs. Features two distinct roles: customer and admin. Customers browse, buy, leave reviews, and bookmark favorites; admins manage inventory, orders, users, and review sales analytics. Product images are uploaded directly to S3 via pre-signed URLs from a serverless function.",
+    role: "Solo project",
+    stack: [
+      "React 19",
+      "React Router 7",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS 4",
+      "Firebase (Auth + Firestore)",
+      "AWS S3",
+      "Vercel Functions",
+      "Vitest + Testing Library",
+      "Vercel",
+    ],
+    links: [
+      { label: "demo", url: "https://geekeame-store.vercel.app" },
+      {
+        label: "repository",
+        url: "https://github.com/DonJuanC/geekeame-store",
+      },
+    ],
+
+    image: {
+      src: "/projects/geekeame-store.svg",
+      alt: "Geekeame catalog and transactional checkout interface",
+      caption: "E-commerce store with atomic Firestore transactions and AWS S3 uploads",
+    },
+
+    flow: {
+      steps: [
+        {
+          id: "compra",
+          kind: "input",
+          label: "Customer confirms order",
+          detail: "Authenticated session with populated cart",
+        },
+        {
+          id: "transaccion",
+          kind: "process",
+          label: "Opens Firestore transaction and reads inventory",
+          detail: "20-second timeout limit",
+        },
+        {
+          id: "stock",
+          kind: "decision",
+          label: "All products in stock?",
+          then: [
+            { to: "descuento", when: "yes" },
+            { to: "agotado", when: "no" },
+          ],
+        },
+        {
+          id: "descuento",
+          kind: "process",
+          label: "Deducts stock for each item",
+        },
+        {
+          id: "orden",
+          kind: "output",
+          label: "Creates order in pending status",
+        },
+        {
+          id: "agotado",
+          kind: "output",
+          label: "Rolls back transaction and notifies out-of-stock item",
+          detail: "Shows available units",
+        },
+      ],
+      highlight: {
+        stepId: "stock",
+        note: "Read, validate, and deduct happen within a single atomic transaction: concurrent shoppers cannot buy the same unit.",
+      },
+    },
+  },
+  {
+    slug: "watchlist-con-criterio",
+    name: "Watchlist con Criterio",
+    featured: false,
+    status: "in-progress",
+    tagline:
+      "Movie connection graph: common director and semantic affinity.",
+    summary:
+      "Film discovery engine that connects movies by auteurship and semantic tone/thematic affinity calculated via embeddings, rather than rigid genres. Explored as an interactive graph with natural language semantic search.",
+    role: "Solo project",
+    stack: [
+      "React",
+      "react-force-graph-2d",
+      "Zustand",
+      "Node.js",
+      "Express",
+      "PostgreSQL + pgvector (Neon)",
+      "Gemini Embeddings",
+      "TMDB API",
+      "Vercel",
+      "Render",
+    ],
+    links: [
+      { label: "demo", url: "https://frontend-juan-selector.vercel.app" },
+      {
+        label: "repository",
+        url: "https://github.com/DonJuanC/watchlist-con-criterio",
+      },
+    ],
+
+    image: {
+      src: "/projects/watchlist-con-criterio.svg",
+      alt: "Watchlist con Criterio semantic movie graph",
+      caption: "Film explorer featuring semantic graph on top of embeddings and pgvector",
+    },
+
+    flow: {
+      steps: [
+        {
+          id: "ingesta",
+          kind: "input",
+          label: "Titles ingested from TMDB",
+          detail: "Director, genres, synopsis, and poster",
+        },
+        {
+          id: "embedding",
+          kind: "process",
+          label: "Each movie is converted into an embedding",
+          detail: "768-dimension vector via Gemini from title, genres, and synopsis",
+        },
+        {
+          id: "almacen",
+          kind: "process",
+          label: "Stored in PostgreSQL with pgvector",
+          detail: "HNSW index for fast nearest neighbors",
+        },
+        {
+          id: "aristas",
+          kind: "process",
+          label: "Connections calculated",
+          detail: "Same director, plus top 2 nearest neighbors with >= 0.65 similarity",
+        },
+        {
+          id: "grafo",
+          kind: "output",
+          label: "Graph rendered and interactive",
+          detail: "Canvas-based react-force-graph-2d with client-side filters",
+        },
+      ],
+    },
+  },
+  {
+    slug: "taskflow",
+    name: "TaskFlow",
+    featured: false,
+    status: "deployed",
+    tagline:
+      "Task manager featuring authentication, drag & drop, and email digests.",
+    summary:
+      "Task SPA with signup, email & Google authentication, filtering, priorities, due dates, and drag-and-drop reordering. Backed by Firestore, with email summaries delivered via AWS SES through a serverless function. Capstone project from Henry bootcamp.",
+    role: "Solo project",
+    stack: [
+      "React 19",
+      "TypeScript",
+      "Vite",
+      "Firebase (Auth + Firestore)",
+      "dnd-kit",
+      "AWS SES",
+      "Vitest + Testing Library",
+      "Vercel",
+    ],
+    links: [
+      { label: "demo", url: "https://taskflow-smoky-sigma.vercel.app" },
+      { label: "repository", url: "https://github.com/DonJuanC/taskflow" },
+    ],
+    image: {
+      src: "/projects/taskflow.svg",
+      alt: "TaskFlow drag and drop kanban board",
+      caption: "Task manager with drag & drop and AWS SES notifications",
+    },
+  },
+];
+
+export const projects: Project[] = projectsEs;
+
+export function getProjects(locale: Locale = "es"): Project[] {
+  return locale === "en" ? projectsEn : projectsEs;
+}
+
+export function getProject(slug: string, locale: Locale = "es"): Project | undefined {
+  return getProjects(locale).find((p) => p.slug === slug);
+}

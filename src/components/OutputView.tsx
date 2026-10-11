@@ -1,5 +1,7 @@
-import { projects } from "@/content/projects";
-import { statusLabel } from "@/lib/labels";
+"use client";
+
+import { useLanguage } from "@/context/LanguageContext";
+import { statusLabels } from "@/lib/labels";
 import type { Output } from "@/lib/types";
 import FlowView from "./FlowView";
 import styles from "./Terminal.module.css";
@@ -8,15 +10,20 @@ import AsciiFace from "./AsciiFace";
 import ContactOutput from "./ContactOutput";
 import ProjectPreview from "./ProjectPreview";
 
-const findProject = (slug: string) => projects.find((p) => p.slug === slug);
-
 export default function OutputView({ output }: { output: Output }) {
+  const { locale, projects } = useLanguage();
+  const statusMap = statusLabels[locale];
+  const findProject = (slug: string) => projects.find((p) => p.slug === slug);
+
   switch (output.kind) {
     case "text":
       return <pre className={styles.text}>{output.lines.join("\n")}</pre>;
 
     case "error":
       return <p className={styles.error}>{output.message}</p>;
+
+    case "lang":
+      return <p className={styles.dim}># {output.message}</p>;
 
     case "projects":
       return (
@@ -26,7 +33,7 @@ export default function OutputView({ output }: { output: Output }) {
               <Link href={`/proyectos/${p.slug}`}>{p.slug}/</Link>
               <span className={styles.dim}>
                 {" "}
-                {statusLabel[p.status]} · {p.tagline}
+                {statusMap[p.status]} · {p.tagline}
               </span>
             </li>
           ))}
@@ -56,7 +63,9 @@ export default function OutputView({ output }: { output: Output }) {
                 {l.label} ↗
               </a>
             ))}
-            <Link href={`/proyectos/${p.slug}`}>ficha completa →</Link>
+            <Link href={`/proyectos/${p.slug}`}>
+              {locale === "en" ? "full spec →" : "ficha completa →"}
+            </Link>
           </p>
         </div>
       );
@@ -80,7 +89,7 @@ export default function OutputView({ output }: { output: Output }) {
     case "open":
       return (
         <p className={styles.dim}>
-          ↗ Abriendo {output.label}:{" "}
+          ↗ {locale === "en" ? "Opening" : "Abriendo"} {output.label}:{" "}
           <a href={output.url} target="_blank" rel="noopener noreferrer">
             {output.url}
           </a>

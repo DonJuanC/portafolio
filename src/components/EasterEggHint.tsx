@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 import styles from "./EasterEggHint.module.css";
 
 export default function EasterEggHint() {
+  const { locale, t } = useLanguage();
   const [showTooltip, setShowTooltip] = useState(false);
 
   function handleClick() {
@@ -14,6 +16,8 @@ export default function EasterEggHint() {
     }
     window.dispatchEvent(new CustomEvent("focus-terminal"));
   }
+
+  const isEn = locale === "en";
 
   return (
     <span
@@ -27,14 +31,26 @@ export default function EasterEggHint() {
         onFocus={() => setShowTooltip(true)}
         onBlur={() => setShowTooltip(false)}
         className={styles.trigger}
-        title="Abrir terminal (prueba 'face' o 'sudo')"
+        title={
+          isEn
+            ? "Open terminal (try 'face' or 'sudo')"
+            : "Abrir terminal (prueba 'face' o 'sudo')"
+        }
       >
-        (y algunos easter eggs)
+        {t.hero.easterEggTrigger}
       </button>
 
       {showTooltip && (
         <span className={styles.tooltip} role="tooltip">
-          terminal: prueba <code>face</code> o <code>sudo</code>
+          {isEn ? (
+            <>
+              terminal: try <code>face</code> or <code>sudo</code>
+            </>
+          ) : (
+            <>
+              terminal: prueba <code>face</code> o <code>sudo</code>
+            </>
+          )}
         </span>
       )}
     </span>

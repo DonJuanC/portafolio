@@ -5,6 +5,7 @@ import { SITE_URL } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/next";
 
 import { GITHUB, LINKEDIN } from "@/lib/links";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const TITLE = "JCamilo Castellanos · Full Stack Developer";
 const DESCRIPTION =
@@ -90,12 +91,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var l=localStorage.getItem("portfolio_lang");if(l==="en"||l==="es")document.documentElement.lang=l}catch(e){}`,
           }}
         />
       </head>
       <body>
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>
     </html>
