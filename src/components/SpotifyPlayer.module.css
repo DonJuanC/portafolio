@@ -1,8 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 16px;
+  gap: 20px;
+  padding: 18px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -19,22 +19,15 @@
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 10px;
-  padding-bottom: 12px;
+  gap: 12px;
+  padding-bottom: 14px;
   border-bottom: 1px dashed var(--line);
-}
-
-.headerLinks {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
 .brand {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .titleRow {
@@ -42,7 +35,7 @@
   align-items: center;
   gap: 8px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--accent);
 }
 
@@ -61,22 +54,231 @@
   margin: 0;
 }
 
-.profileLink {
+.intro {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------- Listado editorial de playlists ---------- */
+
+.playlistList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.playlistCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  transition: border-color 0.15s ease;
+}
+
+.playlistCard:hover {
+  border-color: var(--text-faint);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardIndex {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.openLink {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   font-size: 12px;
   color: var(--accent);
-  padding: 4px 10px;
+  padding: 3px 10px;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: transparent;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s,
+    color 0.15s;
+  white-space: nowrap;
 }
 
-.profileLink:hover {
+.openLink:hover {
   border-color: var(--accent);
-  background-color: var(--bg);
+  background-color: var(--surface);
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cmdHint {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+/* ---------- Invitación al perfil amplio ---------- */
+
+.catalogInvite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+}
+
+.inviteText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 58ch;
+}
+
+.inviteTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.inviteDesc {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.profileBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  transition: background-color 0.15s;
+  white-space: nowrap;
+}
+
+.profileBtn:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--bg);
+}
+
+/* ---------- Sección opcional del reproductor embebido ---------- */
+
+.embedGate {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.gateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gateTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.gateNotice {
+  font-size: 12px;
+  color: var(--text-faint);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.gateNotice strong {
+  color: var(--text);
+}
+
+.toggleBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background-color 0.15s;
+}
+
+.toggleBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.toggleBtnActive {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.embedArea {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
 }
 
 .selectorLabel {
@@ -95,9 +297,9 @@
 
 .chip {
   flex: 0 0 auto;
-  min-height: 36px;
+  min-height: 34px;
   padding: 0 12px;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -105,7 +307,10 @@
   font-size: 12px;
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .chip:hover {
@@ -119,35 +324,6 @@
   color: var(--accent);
   font-weight: 700;
   box-shadow: 0 0 0 1px var(--accent);
-}
-
-.activeInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 12px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-}
-
-.playlistName {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0;
-}
-
-.playlistDesc {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin: 0;
-}
-
-.previewTip {
-  font-size: 11px;
-  color: var(--text-faint);
-  margin: 4px 0 0;
 }
 
 .embedWrapper {
