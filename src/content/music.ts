@@ -17,8 +17,8 @@ export const PLAYLISTS: PlaylistInfo[] = [
     slug: "rumba-con-criterio",
     title: "Rumba con criterio",
     description: {
-      es: "Salsa brava, montuno pesado, vinilo y golpe. Cero complacencia algorítmica: sonido crudo para bailar con juicio y sabor de barrio.",
-      en: "Heavy salsa dura, raw groove, and vinyl grit. Zero algorithm compromise: music to dance with intention and soul.",
+      es: "Salsa brava, montuno pesado, vinilo y golpe. Aquí no hay algoritmos: esto es sonido crudo para bailar con 'juicio' y sabor de barrio.",
+      en: "Heavy salsa dura, raw groove, vinyl, and punch. No algorithms here: unadulterated sound to dance with intention and neighborhood soul.",
     },
     aliases: ["rumba", "salsa", "criterio"],
   },
@@ -47,8 +47,8 @@ export const PLAYLISTS: PlaylistInfo[] = [
     slug: "michi",
     title: "Acompáñame a la casa, olvidé darle comida al michi",
     description: {
-      es: "El soundtrack de esa caminata nocturna de vuelta: calidez, paso apurado, nostalgia y la tierna urgencia de llegar a alimentar al gato.",
-      en: "The soundtrack for that late-night walk back home: warmth, hurried steps, gentle nostalgia, and the urgent priority of feeding the cat.",
+      es: "Sonidos para elevar los BPM de manera horizontal.",
+      en: "Sounds to elevate your BPM horizontally.",
     },
     aliases: ["michi", "casa", "comida", "gato", "acompaname"],
   },
